@@ -37,7 +37,7 @@ function Index() {
               FRAA<span className="text-sun">NATION</span>
             </h1>
 
-            <Link to="/events" className="rise group mt-8 flex items-end justify-between gap-6 border-t border-ink-foreground/30 pt-5 md:max-w-xl" style={{ animationDelay: "400ms" }}>
+            <Link to="/events" hash="register" className="rise group mt-8 flex items-end justify-between gap-6 border-t border-ink-foreground/30 pt-5 md:max-w-xl" style={{ animationDelay: "400ms" }}>
               <div>
                 <p className="eyebrow text-sun">Upcoming experience</p>
                 <p className="font-display mt-2 text-4xl">{poolParty.title}</p>
