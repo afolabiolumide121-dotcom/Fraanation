@@ -21,12 +21,12 @@ function Contact() {
   ];
   return (
     <>
-      <PageHero eyebrow="Say hi" title="Contact" sub="Events, partnerships, press — talk to us." />
-      <section className="mx-auto max-w-4xl px-4 py-12">
+      <PageHero index="07" eyebrow="Say hello" title="Contact" sub="Events, partnerships, press — talk to us." />
+      <section className="mx-auto max-w-[1400px] px-5 pb-28 md:px-10">
         {rows.map((r) => (
-          <div key={r.k} className="flex flex-col justify-between gap-1 border-b-2 border-ink py-6 md:flex-row md:items-center">
+          <div key={r.k} className="group flex flex-col gap-2 border-t hairline py-8 md:flex-row md:items-baseline md:justify-between">
             <p className="eyebrow text-muted-foreground">{r.k}</p>
-            <p className="font-display text-2xl md:text-4xl">{r.v}</p>
+            <p className="font-display break-all text-[9vw] transition-colors group-hover:text-muted-foreground md:text-7xl">{r.v}</p>
           </div>
         ))}
       </section>
