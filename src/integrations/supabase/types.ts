@@ -112,6 +112,123 @@ export type Database = {
         }
         Relationships: []
       }
+      order_items: {
+        Row: {
+          colour: string
+          id: string
+          order_id: string
+          product_id: string
+          product_name: string
+          quantity: number
+          size: string
+          unit_price: number
+        }
+        Insert: {
+          colour: string
+          id?: string
+          order_id: string
+          product_id: string
+          product_name: string
+          quantity: number
+          size: string
+          unit_price: number
+        }
+        Update: {
+          colour?: string
+          id?: string
+          order_id?: string
+          product_id?: string
+          product_name?: string
+          quantity?: number
+          size?: string
+          unit_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          address: string
+          city: string
+          code: string
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          notes: string | null
+          phone: string
+          status: string
+          total: number
+        }
+        Insert: {
+          address: string
+          city: string
+          code: string
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          notes?: string | null
+          phone: string
+          status?: string
+          total: number
+        }
+        Update: {
+          address?: string
+          city?: string
+          code?: string
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          notes?: string | null
+          phone?: string
+          status?: string
+          total?: number
+        }
+        Relationships: []
+      }
+      products: {
+        Row: {
+          active: boolean
+          created_at: string
+          id: string
+          name: string
+          price: number
+          stock: number
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          id: string
+          name: string
+          price: number
+          stock?: number
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          id?: string
+          name?: string
+          price?: number
+          stock?: number
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           id: string
@@ -149,6 +266,21 @@ export type Database = {
           event_title: string
           full_name: string
           status: string
+        }[]
+      }
+      place_order: {
+        Args: {
+          _address: string
+          _city: string
+          _email: string
+          _full_name: string
+          _items: Json
+          _notes: string
+          _phone: string
+        }
+        Returns: {
+          code: string
+          total: number
         }[]
       }
       register_for_event: {
