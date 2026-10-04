@@ -2,21 +2,25 @@ import tee from "@/assets/tee.jpg";
 import shorts from "@/assets/shorts.jpg";
 import hat from "@/assets/hat.jpg";
 import hero from "@/assets/hero.jpg";
+import lookTee from "@/assets/look-tee.jpg";
+import crowd from "@/assets/crowd.jpg";
 
 export const heroImage = hero;
+export const lookTeeImage = lookTee;
+export const crowdImage = crowd;
 
 // Editable event info — date & venue not confirmed yet.
 export const poolParty = {
-  title: "The FRAANATION Pool Party",
+  title: "The Pool Party",
   tagline: "Free entry. Summer on full volume.",
-  date: "Date announcing soon",
+  date: "TBA",
   month: "Next month",
   venue: "Venue to be revealed",
   city: "Lagos",
-  price: "FREE",
+  price: "Free",
   details: [
     "Free entry — registration required",
-    "DJs, music & summer vibes all day",
+    "DJs, music and summer energy all day",
     "First look at THE FRAANATION COLLECTION",
     "Dress code: poolside, bold, unmistakably you",
   ],

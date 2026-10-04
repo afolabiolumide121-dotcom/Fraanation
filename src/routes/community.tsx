@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PageHero } from "@/components/site-chrome";
+import { crowdImage } from "@/lib/brand-data";
 
 export const Route = createFileRoute("/community")({
   head: () => ({
@@ -14,21 +14,28 @@ export const Route = createFileRoute("/community")({
 });
 
 function Community() {
-  const features = ["Your own profile & username", "Post pictures & moments", "Comment, like & follow", "Private chat with members", "Community discussions", "Safe — report & block tools"];
+  const features = ["Your profile & username", "Posts & pictures", "Comments, likes & follows", "Community discussions", "Private messages", "Report & block — kept safe"];
   return (
-    <>
-      <PageHero eyebrow="Members only · Coming soon" title="The Nation" sub="A space for the people who move with FRAANATION." />
-      <section className="mx-auto max-w-6xl px-4 py-12">
-        <div className="grid gap-px bg-ink md:grid-cols-3">
-          {features.map((f, i) => (
-            <div key={f} className="bg-background p-6">
-              <p className="eyebrow text-muted-foreground">0{i + 1}</p>
-              <p className="font-display mt-4 text-2xl">{f}</p>
-            </div>
-          ))}
+    <div className="bg-ink text-ink-foreground">
+      <section className="relative overflow-hidden">
+        <img src={crowdImage} alt="FRAANATION members" width={1600} height={1008} className="absolute inset-0 h-full w-full object-cover opacity-40" />
+        <div className="relative mx-auto max-w-[1400px] px-5 pb-16 pt-24 md:px-10 md:pb-28 md:pt-40">
+          <p className="eyebrow text-sun">Members only — opening soon</p>
+          <h1 className="font-display rise mt-6 text-[26vw] md:text-[14rem]">The<br />Nation</h1>
+          <p className="font-editorial rise mt-4 max-w-lg text-3xl md:text-4xl">A private space for the people who move with FRAANATION.</p>
         </div>
-        <button disabled className="btn-sun mt-10">Membership opening soon</button>
       </section>
-    </>
+      <section className="mx-auto max-w-[1400px] px-5 py-16 md:px-10 md:py-24">
+        <ul className="border-t border-ink-foreground/15">
+          {features.map((f, i) => (
+            <li key={f} className="flex items-baseline justify-between border-b border-ink-foreground/15 py-5 md:py-7">
+              <span className="font-display text-4xl md:text-6xl">{f}</span>
+              <span className="eyebrow opacity-40">0{i + 1}</span>
+            </li>
+          ))}
+        </ul>
+        <button disabled className="btn-light mt-10 w-full md:w-auto">Membership opening soon <span>→</span></button>
+      </section>
+    </div>
   );
 }

@@ -1,13 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Calendar, MapPin, Ticket } from "lucide-react";
 import { PageHero } from "@/components/site-chrome";
-import { heroImage, poolParty } from "@/lib/brand-data";
+import { heroImage, crowdImage, poolParty } from "@/lib/brand-data";
 
 export const Route = createFileRoute("/events")({
   head: () => ({
     meta: [
       { title: "Events — FRAANATION" },
-      { name: "description", content: "Upcoming FRAANATION events, including our free pool party next month." },
+      { name: "description", content: "Upcoming FRAANATION experiences, including a free pool party next month." },
       { property: "og:title", content: "Events — FRAANATION" },
       { property: "og:description", content: "Free FRAANATION Pool Party coming next month. Registration opens soon." },
     ],
@@ -16,36 +15,51 @@ export const Route = createFileRoute("/events")({
 });
 
 function Events() {
-  const facts = [
-    { icon: Calendar, label: "Date", value: poolParty.date },
-    { icon: MapPin, label: "Venue", value: poolParty.venue },
-    { icon: Ticket, label: "Entry", value: poolParty.price },
-  ];
   return (
     <>
-      <PageHero eyebrow="Upcoming events" title="Events" sub="Experiences built for the culture." />
-      <section className="mx-auto max-w-6xl px-4 py-12">
-        <article className="border-2 border-ink md:grid md:grid-cols-2">
-          <img src={heroImage} alt="Pool party" loading="lazy" width={1088} height={1440} className="aspect-[4/5] w-full object-cover md:h-full" />
-          <div className="p-6 md:p-10">
-            <p className="eyebrow"><span className="bg-sun px-2 py-1">Upcoming · {poolParty.month}</span></p>
-            <h2 className="font-display mt-5 text-5xl">{poolParty.title}</h2>
-            <p className="font-editorial mt-3 text-2xl">{poolParty.tagline}</p>
-            <div className="mt-8 grid grid-cols-3 border-y-2 border-ink">
-              {facts.map((f) => (
-                <div key={f.label} className="border-r border-border py-4 pr-2 last:border-0">
-                  <f.icon size={18} />
-                  <p className="eyebrow mt-2 text-muted-foreground">{f.label}</p>
-                  <p className="mt-1 text-sm font-bold">{f.value}</p>
-                </div>
+      <PageHero index="02" eyebrow="Experiences" title="Events" sub="Built for the culture. Remembered for longer." />
+
+      <section className="relative">
+        <div className="group overflow-hidden">
+          <img src={heroImage} alt="Pool party" width={1088} height={1440} className="img-editorial h-[75svh] w-full object-cover md:h-[90vh]" />
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-[1400px] px-5 py-16 md:px-10 md:py-28">
+        <div className="grid gap-12 md:grid-cols-12">
+          <div className="md:col-span-7">
+            <p className="eyebrow"><span className="mr-3 inline-block h-1.5 w-1.5 rounded-full bg-sun align-middle" />Upcoming · {poolParty.month}</p>
+            <h2 className="font-display mt-6 text-[18vw] md:text-[9rem]">{poolParty.title}</h2>
+            <p className="font-editorial mt-4 text-3xl md:text-4xl">{poolParty.tagline}</p>
+            <ol className="mt-12 border-t hairline">
+              {poolParty.details.map((d, i) => (
+                <li key={d} className="flex gap-6 border-b hairline py-5">
+                  <span className="eyebrow pt-1 text-muted-foreground">0{i + 1}</span>
+                  <span className="text-lg">{d}</span>
+                </li>
               ))}
-            </div>
-            <ul className="mt-6 space-y-2">
-              {poolParty.details.map((d) => <li key={d} className="flex gap-3"><span className="text-sun">✦</span>{d}</li>)}
-            </ul>
-            <button disabled className="btn-sun mt-8 w-full opacity-90">Free registration opening soon</button>
+            </ol>
           </div>
-        </article>
+
+          <aside className="md:col-span-4 md:col-start-9">
+            <div className="md:sticky md:top-24">
+              <dl className="border-t-2 border-ink">
+                {[["Date", poolParty.date], ["Venue", poolParty.venue], ["City", poolParty.city], ["Entry", poolParty.price]].map(([k, v]) => (
+                  <div key={k} className="flex justify-between border-b hairline py-4">
+                    <dt className="eyebrow text-muted-foreground">{k}</dt>
+                    <dd className="font-semibold">{v}</dd>
+                  </div>
+                ))}
+              </dl>
+              <button disabled className="btn-ink mt-6 w-full">Registration opens soon <span>→</span></button>
+              <p className="mt-4 text-sm text-muted-foreground">Date and venue will be announced here first.</p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section className="group overflow-hidden bg-ink">
+        <img src={crowdImage} alt="FRAANATION night" loading="lazy" width={1600} height={1008} className="img-editorial h-[60svh] w-full object-cover opacity-90" />
       </section>
     </>
   );

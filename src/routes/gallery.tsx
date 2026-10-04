@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHero } from "@/components/site-chrome";
-import { heroImage, products } from "@/lib/brand-data";
+import { heroImage, lookTeeImage, crowdImage, products } from "@/lib/brand-data";
 
 export const Route = createFileRoute("/gallery")({
   head: () => ({
@@ -15,14 +15,21 @@ export const Route = createFileRoute("/gallery")({
 });
 
 function Gallery() {
-  const imgs = [heroImage, ...products.map((p) => p.image)];
+  const items = [
+    { src: crowdImage, cls: "md:col-span-12 aspect-[4/3] md:aspect-[21/9]" },
+    { src: lookTeeImage, cls: "md:col-span-5 aspect-[3/4]" },
+    { src: heroImage, cls: "md:col-span-6 md:col-start-7 md:mt-32 aspect-[3/4]" },
+    { src: products[1]!.image, cls: "md:col-span-4 md:col-start-2 aspect-[4/5]" },
+    { src: products[2]!.image, cls: "md:col-span-4 md:col-start-8 md:-mt-24 aspect-[4/5]" },
+  ];
   return (
     <>
-      <PageHero eyebrow="Moments" title="Gallery" sub="Captured in the heat of it." />
-      <section className="mx-auto grid max-w-6xl grid-cols-2 gap-2 px-4 py-12 md:grid-cols-3">
-        {imgs.map((src, i) => (
-          <img key={i} src={src} alt="FRAANATION moment" loading="lazy"
-            className={`w-full border-2 border-ink object-cover ${i === 0 ? "col-span-2 row-span-2 aspect-square md:aspect-auto md:h-full" : "aspect-[4/5]"}`} />
+      <PageHero index="05" eyebrow="Moments" title="Gallery" sub="Captured in the heat of it." />
+      <section className="mx-auto grid max-w-[1400px] gap-4 px-5 pb-24 md:grid-cols-12 md:gap-8 md:px-10">
+        {items.map((it, i) => (
+          <figure key={i} className={`group overflow-hidden ${it.cls}`}>
+            <img src={it.src} alt="FRAANATION moment" loading="lazy" className="img-editorial h-full w-full object-cover" />
+          </figure>
         ))}
       </section>
     </>
