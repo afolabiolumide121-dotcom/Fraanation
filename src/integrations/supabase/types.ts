@@ -14,16 +14,159 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      event_registrations: {
+        Row: {
+          code: string
+          created_at: string
+          email: string
+          event_id: string
+          full_name: string
+          id: string
+          instagram: string | null
+          phone: string
+          status: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          email: string
+          event_id: string
+          full_name: string
+          id?: string
+          instagram?: string | null
+          phone: string
+          status?: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          email?: string
+          event_id?: string
+          full_name?: string
+          id?: string
+          instagram?: string | null
+          phone?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_registrations_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      events: {
+        Row: {
+          capacity: number | null
+          city: string
+          created_at: string
+          date_text: string
+          details: string[]
+          id: string
+          is_featured: boolean
+          month_text: string
+          price_text: string
+          registration_open: boolean
+          slug: string
+          tagline: string
+          title: string
+          updated_at: string
+          venue: string
+        }
+        Insert: {
+          capacity?: number | null
+          city?: string
+          created_at?: string
+          date_text?: string
+          details?: string[]
+          id?: string
+          is_featured?: boolean
+          month_text?: string
+          price_text?: string
+          registration_open?: boolean
+          slug: string
+          tagline?: string
+          title: string
+          updated_at?: string
+          venue?: string
+        }
+        Update: {
+          capacity?: number | null
+          city?: string
+          created_at?: string
+          date_text?: string
+          details?: string[]
+          id?: string
+          is_featured?: boolean
+          month_text?: string
+          price_text?: string
+          registration_open?: boolean
+          slug?: string
+          tagline?: string
+          title?: string
+          updated_at?: string
+          venue?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      lookup_registration: {
+        Args: { _code: string; _email: string }
+        Returns: {
+          code: string
+          event_title: string
+          full_name: string
+          status: string
+        }[]
+      }
+      register_for_event: {
+        Args: {
+          _email: string
+          _full_name: string
+          _instagram: string
+          _phone: string
+          _slug: string
+        }
+        Returns: {
+          already_registered: boolean
+          code: string
+        }[]
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "moderator" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +293,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "moderator", "user"],
+    },
   },
 } as const
