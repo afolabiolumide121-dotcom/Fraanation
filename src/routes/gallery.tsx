@@ -19,8 +19,8 @@ function Gallery() {
     { src: crowdImage, cls: "md:col-span-12 aspect-[4/3] md:aspect-[21/9]" },
     { src: lookTeeImage, cls: "md:col-span-5 aspect-[3/4]" },
     { src: heroImage, cls: "md:col-span-6 md:col-start-7 md:mt-32 aspect-[3/4]" },
-    { src: products[1].image, cls: "md:col-span-4 md:col-start-2 aspect-[4/5]" },
-    { src: products[2].image, cls: "md:col-span-4 md:col-start-8 md:-mt-24 aspect-[4/5]" },
+    { src: products[1]!.image, cls: "md:col-span-4 md:col-start-2 aspect-[4/5]" },
+    { src: products[2]!.image, cls: "md:col-span-4 md:col-start-8 md:-mt-24 aspect-[4/5]" },
   ];
   return (
     <>
