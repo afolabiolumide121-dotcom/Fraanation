@@ -47,7 +47,7 @@ export function SiteHeader() {
               </Link>
             ))}
           </nav>
-          <Link to="/events" className="btn-light w-full">Register — Pool Party <span>→</span></Link>
+          <Link to="/events" hash="register" className="btn-light w-full">Register — Pool Party <span>→</span></Link>
         </div>
       )}
     </>
