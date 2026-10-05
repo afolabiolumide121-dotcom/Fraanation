@@ -169,10 +169,15 @@ export type Database = {
           email: string
           full_name: string
           id: string
+          instagram: string | null
           notes: string | null
+          payment_status: string
           phone: string
+          state: string
           status: string
+          subtotal: number
           total: number
+          updated_at: string
         }
         Insert: {
           address: string
@@ -182,10 +187,15 @@ export type Database = {
           email: string
           full_name: string
           id?: string
+          instagram?: string | null
           notes?: string | null
+          payment_status?: string
           phone: string
+          state?: string
           status?: string
+          subtotal?: number
           total: number
+          updated_at?: string
         }
         Update: {
           address?: string
@@ -195,37 +205,63 @@ export type Database = {
           email?: string
           full_name?: string
           id?: string
+          instagram?: string | null
           notes?: string | null
+          payment_status?: string
           phone?: string
+          state?: string
           status?: string
+          subtotal?: number
           total?: number
+          updated_at?: string
         }
         Relationships: []
       }
       products: {
         Row: {
           active: boolean
+          colours: string[]
           created_at: string
+          description: string
           id: string
+          image_key: string
           name: string
           price: number
+          signature: string
+          sizes: string[]
+          sort_order: number
           stock: number
+          updated_at: string
         }
         Insert: {
           active?: boolean
+          colours?: string[]
           created_at?: string
+          description?: string
           id: string
+          image_key?: string
           name: string
           price: number
+          signature?: string
+          sizes?: string[]
+          sort_order?: number
           stock?: number
+          updated_at?: string
         }
         Update: {
           active?: boolean
+          colours?: string[]
           created_at?: string
+          description?: string
           id?: string
+          image_key?: string
           name?: string
           price?: number
+          signature?: string
+          sizes?: string[]
+          sort_order?: number
           stock?: number
+          updated_at?: string
         }
         Relationships: []
       }
@@ -274,9 +310,10 @@ export type Database = {
           _city: string
           _email: string
           _full_name: string
+          _instagram: string
           _items: Json
-          _notes: string
           _phone: string
+          _state: string
         }
         Returns: {
           code: string
