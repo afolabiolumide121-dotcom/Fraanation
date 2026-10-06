@@ -13,6 +13,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader, SiteFooter } from "@/components/site-chrome";
+import { CartProvider } from "@/lib/cart";
 
 function NotFoundComponent() {
   return (
@@ -82,9 +83,11 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   return (
     <QueryClientProvider client={queryClient}>
-      <SiteHeader />
-      <main><Outlet /></main>
-      <SiteFooter />
+      <CartProvider>
+        <SiteHeader />
+        <main><Outlet /></main>
+        <SiteFooter />
+      </CartProvider>
     </QueryClientProvider>
   );
 }
