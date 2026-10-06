@@ -123,7 +123,7 @@ function Index() {
                 </div>
               ))}
             </dl>
-            <Link to="/events" className="btn-ink mt-6 w-full">Event details <span>→</span></Link>
+            <Link to="/events" hash="reserve" className="btn-ink mt-6 w-full">Reserve your spot <span>→</span></Link>
           </div>
         </div>
       </section>
