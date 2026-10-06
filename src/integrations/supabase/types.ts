@@ -16,37 +16,52 @@ export type Database = {
     Tables: {
       event_registrations: {
         Row: {
+          checked_in_at: string | null
           code: string
           created_at: string
           email: string
           event_id: string
           full_name: string
+          guests: number
           id: string
           instagram: string | null
           phone: string
           status: string
+          updated_at: string
+          user_id: string | null
+          username: string | null
         }
         Insert: {
+          checked_in_at?: string | null
           code: string
           created_at?: string
           email: string
           event_id: string
           full_name: string
+          guests?: number
           id?: string
           instagram?: string | null
           phone: string
           status?: string
+          updated_at?: string
+          user_id?: string | null
+          username?: string | null
         }
         Update: {
+          checked_in_at?: string | null
           code?: string
           created_at?: string
           email?: string
           event_id?: string
           full_name?: string
+          guests?: number
           id?: string
           instagram?: string | null
           phone?: string
           status?: string
+          updated_at?: string
+          user_id?: string | null
+          username?: string | null
         }
         Relationships: [
           {
@@ -60,6 +75,7 @@ export type Database = {
       }
       events: {
         Row: {
+          address: string
           capacity: number | null
           city: string
           created_at: string
@@ -67,16 +83,20 @@ export type Database = {
           details: string[]
           id: string
           is_featured: boolean
+          max_guests_per_reservation: number
           month_text: string
           price_text: string
           registration_open: boolean
           slug: string
+          starts_at: string | null
           tagline: string
+          time_text: string
           title: string
           updated_at: string
           venue: string
         }
         Insert: {
+          address?: string
           capacity?: number | null
           city?: string
           created_at?: string
@@ -84,16 +104,20 @@ export type Database = {
           details?: string[]
           id?: string
           is_featured?: boolean
+          max_guests_per_reservation?: number
           month_text?: string
           price_text?: string
           registration_open?: boolean
           slug: string
+          starts_at?: string | null
           tagline?: string
+          time_text?: string
           title: string
           updated_at?: string
           venue?: string
         }
         Update: {
+          address?: string
           capacity?: number | null
           city?: string
           created_at?: string
@@ -101,11 +125,14 @@ export type Database = {
           details?: string[]
           id?: string
           is_featured?: boolean
+          max_guests_per_reservation?: number
           month_text?: string
           price_text?: string
           registration_open?: boolean
           slug?: string
+          starts_at?: string | null
           tagline?: string
+          time_text?: string
           title?: string
           updated_at?: string
           venue?: string
@@ -301,6 +328,7 @@ export type Database = {
           code: string
           event_title: string
           full_name: string
+          guests: number
           status: string
         }[]
       }
@@ -324,13 +352,17 @@ export type Database = {
         Args: {
           _email: string
           _full_name: string
+          _guests: number
           _instagram: string
           _phone: string
           _slug: string
+          _username: string
         }
         Returns: {
           already_registered: boolean
           code: string
+          full_name: string
+          guests: number
         }[]
       }
     }

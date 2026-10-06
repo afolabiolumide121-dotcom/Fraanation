@@ -54,7 +54,7 @@ export function SiteHeader() {
               </Link>
             ))}
           </nav>
-          <Link to="/events" hash="register" className="btn-light w-full">Register — Pool Party <span>→</span></Link>
+          <Link to="/events" hash="register" className="btn-light w-full">Reserve — FRAA SPLASH <span>→</span></Link>
         </div>
       )}
     </>
@@ -62,7 +62,7 @@ export function SiteHeader() {
 }
 
 export function EventTicker() {
-  const t = `Upcoming — ${poolParty.title} · ${poolParty.price} entry · ${poolParty.month} · ${poolParty.city}`;
+  const t = `${poolParty.title} · ${poolParty.month} · ${poolParty.time} · Free entry by reservation`;
   const items = Array(6).fill(t);
   return (
     <Link to="/events" className="block overflow-hidden bg-ink py-3 text-ink-foreground">

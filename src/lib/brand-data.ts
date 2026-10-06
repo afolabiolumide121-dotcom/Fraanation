@@ -9,20 +9,23 @@ export const heroImage = hero;
 export const lookTeeImage = lookTee;
 export const crowdImage = crowd;
 
-// Editable event info — date & venue not confirmed yet.
+// Fallback event info (live values come from the database).
 export const poolParty = {
-  title: "The Pool Party",
-  tagline: "Free entry. Summer on full volume.",
-  date: "TBA",
-  month: "Next month",
-  venue: "Venue to be revealed",
+  title: "FRAA SPLASH",
+  tagline: "The night starts here.",
+  date: "November 25, 2026",
+  month: "Nov 25, 2026",
+  time: "9:00 PM — Till Dawn",
+  venue: "The Grand Elysium",
+  address: "9 Taiye Odunjo St., Behind Grace Hotel, Idimu, Lagos",
   city: "Lagos",
   price: "Free",
+  startsAt: "2026-11-25T21:00:00+01:00",
   details: [
-    "Free entry — registration required",
-    "DJs, music and summer energy all day",
-    "First look at THE FRAANATION COLLECTION",
-    "Dress code: poolside, bold, unmistakably you",
+    "Free entry — reservation required",
+    "Music, fashion and people — one night, till dawn",
+    "The FRAA Collection, worn by the crowd",
+    "Dress code: bold, poolside, unmistakably you",
   ],
 };
 
