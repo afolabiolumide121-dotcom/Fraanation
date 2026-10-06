@@ -6,7 +6,7 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "FRAANATION — Entertainment, Fashion & Culture" },
-      { name: "description", content: "FRAANATION is an entertainment, fashion and community brand. Free pool party coming next month." },
+      { name: "description", content: "FRAANATION is an entertainment, fashion and community brand. FRAA SPLASH — Nov 25, 2026, Lagos. Free entry by reservation." },
       { property: "og:title", content: "FRAANATION — Entertainment, Fashion & Culture" },
       { property: "og:description", content: "Events, THE FRAANATION COLLECTION and a community built for the culture." },
     ],
@@ -112,7 +112,7 @@ function Index() {
         <p className="eyebrow text-muted-foreground">(03) Upcoming</p>
         <div className="mt-8 grid items-end gap-10 md:grid-cols-12">
           <h2 className="font-display text-[24vw] md:col-span-8 md:text-[13rem]">
-            Pool<br /><span className="font-editorial normal-case tracking-tight">Party</span>
+            FRAA<br /><span className="font-editorial normal-case tracking-tight">Splash</span>
           </h2>
           <div className="md:col-span-4">
             <dl className="divide-y hairline border-y hairline">
