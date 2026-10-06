@@ -1,6 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { poolParty } from "@/lib/brand-data";
+import { useCart } from "@/lib/cart";
 
 const nav = [
   { to: "/events", label: "Events" },
@@ -14,6 +15,7 @@ const nav = [
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const path = useRouterState({ select: (s) => s.location.pathname });
+  const { count } = useCart();
   const overHero = path === "/" && !open;
   useEffect(() => setOpen(false), [path]);
   useEffect(() => { document.body.style.overflow = open ? "hidden" : ""; }, [open]);
@@ -30,9 +32,14 @@ export function SiteHeader() {
               <Link key={n.to} to={n.to} className="eyebrow link-draw pb-1" activeProps={{ className: "text-sun" }}>{n.label}</Link>
             ))}
           </nav>
-          <button className="eyebrow lg:hidden" onClick={() => setOpen(!open)} aria-expanded={open}>
-            {open ? "Close" : "Menu"}
-          </button>
+          <div className="flex items-center gap-5">
+            <Link to="/cart" className="eyebrow link-draw flex min-h-11 items-center gap-1.5">
+              Cart{count > 0 && <span className="bg-sun px-1.5 py-0.5 text-ink">{count}</span>}
+            </Link>
+            <button className="eyebrow min-h-11 lg:hidden" onClick={() => setOpen(!open)} aria-expanded={open}>
+              {open ? "Close" : "Menu"}
+            </button>
+          </div>
         </div>
       </header>
 
