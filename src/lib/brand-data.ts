@@ -11,8 +11,8 @@ export const crowdImage = crowd;
 
 // Fallback event info (live values come from the database).
 export const poolParty = {
-  title: "FRAA SPLASH",
-  tagline: "The night starts here.",
+  title: "FRAANATION After Dark",
+  tagline: "Where the night gets wet.",
   date: "November 25, 2026",
   month: "Nov 25, 2026",
   time: "9:00 PM — Till Dawn",
