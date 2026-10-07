@@ -1,0 +1,1 @@
+update public.events set title = 'FRAANATION After Dark', tagline = 'Where the night gets wet.', date_text = 'November 25, 2026', month_text = '25.11.26', time_text = '9:00 PM — Till Dawn', venue = 'The Grand Elysium', address = '9 Taiye Odunjo St., Behind Grace Hotel, Idimu, Lagos', price_text = 'Entry by reservation', updated_at = now() where slug = 'pool-party';
