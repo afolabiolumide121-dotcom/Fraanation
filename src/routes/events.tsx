@@ -111,7 +111,7 @@ function Splash() {
                 </div>
               ))}
             </dl>
-            <p className="mt-6 text-sm opacity-70">Host: Hollluster · Sponsorship / enquiries: <a className="link-draw" href="https://wa.me/2349082556742">WhatsApp 09082556742</a></p>
+            <p className="mt-6 text-sm opacity-70">Host: Holluster · Sponsorship / enquiries: <a className="link-draw" href="https://wa.me/2349082556742">WhatsApp 09082556742</a></p>
             <a href={mapsUrl(full)} target="_blank" rel="noreferrer" className="btn-light mt-8 w-full md:w-auto">Get directions <span>→</span></a>
           </div>
           <div className="md:col-span-5 md:col-start-8">
