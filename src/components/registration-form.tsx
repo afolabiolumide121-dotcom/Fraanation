@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { QRCodeSVG } from "qrcode.react";
+import { Button } from "@/components/ui/button";
 import { registerForEvent, lookupRegistration, registrationSchema, type EventRow } from "@/lib/events.functions";
 
 const field = "w-full border-0 border-b hairline bg-transparent py-3 text-lg outline-none placeholder:text-muted-foreground focus:border-ink";
@@ -27,16 +28,16 @@ export function TicketPass({ t, ev }: { t: Ticket; ev: EventRow }) {
       <div className="grid grid-cols-2 gap-x-4 gap-y-4 px-6 py-5 text-sm">
         <div><p className="eyebrow text-muted-foreground">Date</p><p className="mt-1 font-semibold">{ev.date_text}</p></div>
         <div><p className="eyebrow text-muted-foreground">Time</p><p className="mt-1 font-semibold">{ev.time_text}</p></div>
-        <div className="col-span-2"><p className="eyebrow text-muted-foreground">Venue</p><p className="mt-1 font-semibold">{ev.venue}</p><p className="text-muted-foreground">{ev.address}</p></div>
-        <div><p className="eyebrow text-muted-foreground">Guest</p><p className="mt-1 font-semibold">{t.fullName}</p></div>
+        <div className="col-span-2 border-y border-ink/20 py-4"><p className="eyebrow text-muted-foreground">Your destination</p><p className="mt-2 font-display text-3xl leading-tight">{ev.venue}</p><address className="mt-2 text-base not-italic leading-relaxed">{ev.address}</address><a href={mapsUrl(`${ev.venue}, ${ev.address}`)} target="_blank" rel="noreferrer" className="mt-3 inline-block border-b border-ink text-sm font-semibold">Open in Maps ↗</a></div>
+        <div><p className="eyebrow text-muted-foreground">Guest</p><p className="mt-1 break-words font-semibold">{t.fullName}</p></div>
         <div><p className="eyebrow text-muted-foreground">Entry</p><p className="mt-1 font-semibold">Free</p></div>
       </div>
       <div className="relative border-t-2 border-dashed border-ink/25 px-6 py-6">
         <span className="absolute -left-3 -top-3 h-6 w-6 rounded-full bg-background" />
         <span className="absolute -right-3 -top-3 h-6 w-6 rounded-full bg-background" />
-        <div className="flex items-center gap-5">
-          <div className="bg-background p-2"><QRCodeSVG value={t.code} size={96} bgColor="transparent" fgColor="currentColor" /></div>
-          <div>
+        <div className="flex flex-wrap items-center gap-4">
+          <div className="shrink-0 bg-background p-2"><QRCodeSVG value={t.code} size={80} bgColor="transparent" fgColor="currentColor" /></div>
+          <div className="min-w-0">
             <p className="eyebrow text-muted-foreground">Reservation</p>
             <p className="font-display mt-1 text-3xl tracking-wide">{t.code}</p>
             <p className="eyebrow mt-2"><span className="bg-sun px-1.5 py-0.5">Reservation confirmed</span></p>
@@ -71,7 +72,7 @@ function YoureIn({ t, ev, onReset }: { t: Ticket; ev: EventRow; onReset: () => v
         {shareMsg && <p className="text-sm opacity-70">{shareMsg}</p>}
       </div>
       <div className="border-t border-ink-foreground/20 pt-8">
-        <p className="font-editorial text-3xl">Welcome to FRAANATION.</p>
+        <p className="font-editorial break-words text-2xl sm:text-3xl">Welcome to FRAANATION.</p>
         <nav className="mt-6 border-t border-ink-foreground/15">
           {[
             ["/collection", "Explore the collection"],
@@ -141,30 +142,44 @@ export function RegistrationForm({ ev }: { ev: EventRow }) {
     { k: "instagram", label: "Instagram (optional)", type: "text", auto: "off" },
   ] as const;
 
-  const darkField = field.replace("focus:border-ink", "focus:border-sun") + " placeholder:text-ink-foreground/45";
-
   return (
-    <form onSubmit={submit} noValidate className="space-y-5">
-      <p className="eyebrow text-sun">Free reservation</p>
-      {inputs.map((f) => (
-        <label key={f.k} className="block">
-          <span className="sr-only">{f.label}</span>
-          <input type={f.type} autoComplete={f.auto} placeholder={f.label} value={form[f.k]} maxLength={f.k === "email" ? 255 : 100}
-            onChange={(e) => setForm({ ...form, [f.k]: e.target.value })} className={darkField} />
-          {errors[f.k] && <span className="mt-1 block text-sm text-sun">{errors[f.k]}</span>}
-        </label>
-      ))}
-      <div className="flex items-center justify-between border-b hairline py-3">
-        <span className="text-lg opacity-80">Guests <span className="text-sm opacity-60">(incl. you, max {max})</span></span>
-        <div className="flex items-center">
-          <button type="button" aria-label="Fewer guests" disabled={guests <= 1} onClick={() => setGuests(guests - 1)} className="h-11 w-11 text-xl disabled:opacity-30">−</button>
-          <span className="font-display w-8 text-center text-3xl">{guests}</span>
-          <button type="button" aria-label="More guests" disabled={guests >= max} onClick={() => setGuests(guests + 1)} className="h-11 w-11 text-xl disabled:opacity-30">+</button>
-        </div>
+    <form onSubmit={submit} noValidate className="reservation-sheet bg-paper text-ink">
+      <div className="border-b border-ink/20 px-5 py-6 sm:px-7">
+        <div className="flex items-center justify-between gap-3"><p className="eyebrow">FRAANATION · Guest list</p><span className="eyebrow shrink-0 bg-sun px-2 py-1">Free entry</span></div>
+        <h2 className="font-display mt-6 text-6xl leading-[0.9]">Your night.<br />Your <span className="font-editorial text-5xl normal-case">invitation.</span></h2>
+        <p className="mt-4 text-sm text-muted-foreground">{ev.title} · {ev.date_text}</p>
       </div>
-      {serverError && <p className="text-sm text-sun">{serverError}</p>}
-      <button type="submit" disabled={busy} className="btn-light w-full">{busy ? "Reserving…" : "Reserve your spot"} <span>→</span></button>
-      <p className="text-xs opacity-60">Your username will be saved for your FRAANATION community profile.</p>
+      <div className="px-5 py-6 sm:px-7">
+        <p className="eyebrow mb-6 flex items-center gap-3"><span className="font-display text-2xl">01</span> On the list</p>
+        <div className="space-y-5">
+          {inputs.map((f) => (
+            <label key={f.k} className="block">
+              <span className="block text-xs font-semibold">{f.label}</span>
+              <input id={`reservation-${f.k}`} type={f.type} autoComplete={f.auto} placeholder={f.k === "username" || f.k === "instagram" ? "@yourname" : f.k === "phone" ? "+234" : f.k === "email" ? "you@example.com" : "Your name"} value={form[f.k]} maxLength={f.k === "email" ? 255 : 100}
+                aria-invalid={Boolean(errors[f.k])} aria-describedby={errors[f.k] ? `error-${f.k}` : undefined}
+                onChange={(e) => setForm({ ...form, [f.k]: e.target.value })} className={field + " transition-colors focus:border-b-2"} />
+              {errors[f.k] && <span id={`error-${f.k}`} role="alert" className="mt-1 block text-sm text-destructive">{errors[f.k]}</span>}
+            </label>
+          ))}
+        </div>
+        <div className="mt-8 flex items-center justify-between gap-3 border-y border-ink/20 py-5">
+          <div><p className="eyebrow">02 · Your people</p><p className="mt-2 text-xs text-muted-foreground">Including you · up to {max}</p></div>
+          <div className="flex shrink-0 items-center">
+            <Button variant="ghost" type="button" aria-label="Fewer guests" disabled={guests <= 1} onClick={() => setGuests(guests - 1)} className="h-11 w-10 p-0 text-xl">−</Button>
+            <output aria-live="polite" aria-label="Number of guests" className="font-display w-9 text-center text-4xl">{guests}</output>
+            <Button variant="ghost" type="button" aria-label="More guests" disabled={guests >= max} onClick={() => setGuests(guests + 1)} className="h-11 w-10 p-0 text-xl">+</Button>
+          </div>
+        </div>
+        {serverError && <p role="alert" className="mt-4 text-sm text-destructive">{serverError}</p>}
+        <Button type="submit" disabled={busy} className="mt-6 h-auto min-h-14 w-full justify-between whitespace-normal bg-ink px-5 py-4 text-xs uppercase tracking-normal text-ink-foreground shadow-none hover:bg-sun hover:text-ink">{busy ? "Reserving…" : "Reserve your spot"} <span aria-hidden="true">→</span></Button>
+        <p className="mt-4 text-xs leading-relaxed text-muted-foreground">Your username will be saved for your FRAANATION community profile.</p>
+      </div>
+      <div className="border-t-2 border-dashed border-ink/25 px-5 py-6 sm:px-7">
+        <p className="eyebrow text-muted-foreground">03 · Meet us here</p>
+        <p className="font-display mt-3 text-3xl leading-tight">{ev.venue}</p>
+        <address className="mt-2 text-sm not-italic leading-relaxed">{ev.address}</address>
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-3"><p className="text-xs font-semibold">{ev.time_text}</p><a href={mapsUrl(`${ev.venue}, ${ev.address}`)} target="_blank" rel="noreferrer" className="border-b border-ink text-xs font-semibold">Get directions ↗</a></div>
+      </div>
     </form>
   );
 }

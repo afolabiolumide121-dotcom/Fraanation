@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Reservation forms and digital passes display the current event's stored venue and full address, so event edits stay consistent without duplicated location copy.
