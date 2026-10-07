@@ -21,7 +21,7 @@ export function TicketPass({ t, ev }: { t: Ticket; ev: EventRow }) {
           <p className="eyebrow">FRAANATION presents</p>
           <p className="eyebrow text-sun">Admit {t.guests}</p>
         </div>
-        <p className="font-display mt-4 text-7xl leading-[0.8]">FRAA<br />SPLASH<span className="text-sun">.</span></p>
+        <p className="font-display mt-4 text-7xl leading-[0.8]">AFTER<br />DARK<span className="text-sun">.</span></p>
         <p className="font-editorial mt-3 text-xl">{ev.tagline}</p>
       </div>
       <div className="grid grid-cols-2 gap-x-4 gap-y-4 px-6 py-5 text-sm">
@@ -49,11 +49,11 @@ export function TicketPass({ t, ev }: { t: Ticket; ev: EventRow }) {
 
 function YoureIn({ t, ev, onReset }: { t: Ticket; ev: EventRow; onReset: () => void }) {
   const [shareMsg, setShareMsg] = useState("");
-  const text = "I'M GOING TO FRAA SPLASH.\nNOV 25.\n9PM TILL DAWN.\nFRAANATION.";
+  const text = "I'M GOING TO FRAANATION AFTER DARK.\nNOV 25.\n9PM TILL DAWN.\nFRAANATION.";
   async function share() {
     const url = `${window.location.origin}/events`;
     try {
-      if (navigator.share) await navigator.share({ title: "FRAA SPLASH", text, url });
+      if (navigator.share) await navigator.share({ title: "FRAANATION After Dark", text, url });
       else { await navigator.clipboard.writeText(`${text}\n${url}`); setShareMsg("Copied — paste it anywhere."); }
     } catch { /* user cancelled */ }
   }

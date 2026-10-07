@@ -10,14 +10,14 @@ const eventQuery = queryOptions({ queryKey: ["event", "pool-party"], queryFn: ()
 export const Route = createFileRoute("/events")({
   head: () => ({
     meta: [
-      { title: "FRAA SPLASH — Nov 25, 2026 · The Grand Elysium, Lagos" },
-      { name: "description", content: "FRAA SPLASH by FRAANATION. Nov 25, 2026, 9PM till dawn at The Grand Elysium, Idimu, Lagos. Free entry by reservation." },
-      { property: "og:title", content: "FRAA SPLASH — The night starts here." },
+      { title: "FRAANATION After Dark — 25.11.26 · The Grand Elysium, Lagos" },
+      { name: "description", content: "FRAANATION After Dark. Nov 25, 2026, 9PM till dawn at The Grand Elysium, Idimu, Lagos. Free entry by reservation." },
+      { property: "og:title", content: "FRAANATION After Dark — Where the night gets wet." },
       { property: "og:description", content: "Nov 25 · 9PM till dawn · The Grand Elysium, Lagos. Free entry — reserve your spot." },
     ],
   }),
   loader: ({ context }) => context.queryClient.ensureQueryData(eventQuery),
-  errorComponent: () => <p className="p-10">Couldn't load FRAA SPLASH. Please refresh.</p>,
+  errorComponent: () => <p className="p-10">Couldn't load the event. Please refresh.</p>,
   notFoundComponent: () => <p className="p-10">Event not found.</p>,
   component: Splash,
 });
@@ -32,7 +32,7 @@ function useCountdown(target: string) {
 
 function Countdown({ target }: { target: string }) {
   const c = useCountdown(target);
-  if (c?.live) return <p className="font-display text-6xl md:text-8xl">FRAA SPLASH <span className="text-sun">is live.</span></p>;
+  if (c?.live) return <p className="font-display text-6xl md:text-8xl">After Dark <span className="text-sun">is live.</span></p>;
   return (
     <div className="grid grid-cols-4 border-t border-ink-foreground/20">
       {(c?.parts ?? [["Days", 0], ["Hours", 0], ["Minutes", 0], ["Seconds", 0]]).map(([l, v], i) => (
@@ -58,16 +58,16 @@ function Splash() {
     <div className="bg-ink text-ink-foreground">
       {/* HERO */}
       <section className="relative -mt-px min-h-[100svh] overflow-hidden">
-        <img src={heroImage} alt="FRAA SPLASH" width={1088} height={1440} className="absolute inset-0 h-full w-full object-cover opacity-55" />
+        <img src={heroImage} alt="FRAANATION After Dark" width={1088} height={1440} className="absolute inset-0 h-full w-full object-cover opacity-55" />
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/30 to-transparent" />
         <div className="relative mx-auto flex min-h-[100svh] max-w-[1400px] flex-col justify-end px-5 pb-10 pt-24 md:px-10 md:pb-16">
           <p className="eyebrow rise"><span className="mr-2 inline-block h-1.5 w-1.5 rounded-full bg-sun align-middle" />FRAANATION presents</p>
           <h1 className="font-display rise mt-4 text-[38vw] leading-[0.78] md:text-[22rem]" style={{ animationDelay: "80ms" }}>
-            FRAA<br />Splash<span className="text-sun">.</span>
+            After<br />Dark<span className="text-sun">.</span>
           </h1>
-          <p className="font-editorial rise mt-4 text-3xl md:text-5xl" style={{ animationDelay: "160ms" }}>The night starts here.</p>
+          <p className="font-editorial rise mt-4 text-3xl md:text-5xl" style={{ animationDelay: "160ms" }}>Where the night gets wet.</p>
           <div className="rise mt-8 grid grid-cols-2 gap-y-3 border-t border-ink-foreground/25 pt-5 md:grid-cols-4" style={{ animationDelay: "240ms" }}>
-            {["Nov 25, 2026", "9PM — Till dawn", ev.venue, ev.city].map((x) => <p key={x} className="eyebrow">{x}</p>)}
+            {["25.11.26", "9PM — Till dawn", ev.venue, ev.city].map((x) => <p key={x} className="eyebrow">{x}</p>)}
           </div>
           <p className="eyebrow rise mt-6" style={{ animationDelay: "300ms" }}><span className="bg-sun px-2 py-1 text-ink">Free entry</span> <span className="ml-2">Reservation required</span></p>
           <div className="rise mt-8 grid gap-3 md:flex" style={{ animationDelay: "360ms" }}>
@@ -88,7 +88,7 @@ function Splash() {
         <div className="mx-auto grid max-w-[1400px] gap-10 px-5 py-20 md:grid-cols-12 md:px-10 md:py-32">
           <p className="eyebrow md:col-span-3">(01) The experience</p>
           <p className="font-editorial text-4xl leading-tight md:col-span-8 md:text-6xl">
-            FRAA SPLASH is where FRAANATION brings entertainment, fashion, music, people and energy together for <span className="font-display not-italic">one unforgettable night.</span>
+            After Dark is where FRAANATION brings entertainment, fashion, music, people and energy together for <span className="font-display not-italic">one unforgettable night.</span>
           </p>
           <ol className="border-t hairline md:col-span-8 md:col-start-4">
             {ev.details.map((d, i) => (
@@ -111,6 +111,7 @@ function Splash() {
                 </div>
               ))}
             </dl>
+            <p className="mt-6 text-sm opacity-70">Host: Hollluster · Sponsorship / enquiries: <a className="link-draw" href="https://wa.me/2349082556742">WhatsApp 09082556742</a></p>
             <a href={mapsUrl(full)} target="_blank" rel="noreferrer" className="btn-light mt-8 w-full md:w-auto">Get directions <span>→</span></a>
           </div>
           <div className="md:col-span-5 md:col-start-8">
