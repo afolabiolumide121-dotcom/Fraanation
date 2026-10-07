@@ -72,7 +72,7 @@ function YoureIn({ t, ev, onReset }: { t: Ticket; ev: EventRow; onReset: () => v
         {shareMsg && <p className="text-sm opacity-70">{shareMsg}</p>}
       </div>
       <div className="border-t border-ink-foreground/20 pt-8">
-        <p className="font-editorial text-3xl">Welcome to FRAANATION.</p>
+        <p className="font-editorial break-words text-2xl sm:text-3xl">Welcome to FRAANATION.</p>
         <nav className="mt-6 border-t border-ink-foreground/15">
           {[
             ["/collection", "Explore the collection"],
