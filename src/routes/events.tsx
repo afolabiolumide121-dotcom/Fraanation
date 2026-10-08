@@ -98,10 +98,13 @@ function Splash() {
         </div>
       </section>
 
-      {/* DETAILS + RESERVE */}
+      {/* RESERVE — form first, details beside/below */}
       <section id="reserve" className="mx-auto max-w-[1400px] scroll-mt-16 px-5 py-20 md:px-10 md:py-32">
         <div className="grid gap-16 md:grid-cols-12">
-          <div className="md:col-span-6">
+          <div id="register" className="scroll-mt-16 md:col-span-5">
+            <RegistrationForm ev={ev} />
+          </div>
+          <div className="md:col-span-6 md:col-start-7">
             <p className="eyebrow text-sun">(02) The details</p>
             <dl className="mt-8 border-t border-ink-foreground/25">
               {[["Date", ev.date_text], ["Time", ev.time_text], ["Venue", ev.venue], ["Location", ev.address], ["Entry", "Free"], ["Access", "By reservation"]].map(([k, v]) => (
@@ -113,9 +116,6 @@ function Splash() {
             </dl>
             <p className="mt-6 text-sm opacity-70">Host: Holluster · Sponsorship / enquiries: <a className="link-draw" href="https://wa.me/2349082556742">WhatsApp 09082556742</a></p>
             <a href={mapsUrl(full)} target="_blank" rel="noreferrer" className="btn-light mt-8 w-full md:w-auto">Get directions <span>→</span></a>
-          </div>
-          <div className="md:col-span-5 md:col-start-8">
-            <RegistrationForm ev={ev} />
           </div>
         </div>
       </section>
