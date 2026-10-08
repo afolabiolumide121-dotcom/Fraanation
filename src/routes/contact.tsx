@@ -15,8 +15,8 @@ export const Route = createFileRoute("/contact")({
 
 function Contact() {
   const rows = [
-    { k: "General", v: "hello@fraanation.com" },
-    { k: "Partnerships", v: "partners@fraanation.com" },
+    { k: "Email", v: "officialfraanation@gmail.com" },
+    { k: "Sponsorship · WhatsApp", v: "09082556742" },
     { k: "Instagram", v: "@fraanation" },
   ];
   return (
