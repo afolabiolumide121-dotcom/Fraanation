@@ -14,6 +14,14 @@ export default defineConfig({
   },
   vite: {
     // Pre-bundle so a mid-session re-optimization can't load a second React copy.
-    optimizeDeps: { include: ["lucide-react"] },
+    optimizeDeps: {
+      include: [
+        "lucide-react",
+        "@tanstack/router-core",
+        "@tanstack/router-core/isServer",
+        "@tanstack/router-core/ssr/client",
+        "seroval",
+      ],
+    },
   },
 });
