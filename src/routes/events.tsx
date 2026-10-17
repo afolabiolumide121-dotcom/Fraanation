@@ -17,7 +17,12 @@ export const Route = createFileRoute("/events")({
     ],
   }),
   loader: ({ context }) => context.queryClient.ensureQueryData(eventQuery),
-  errorComponent: () => <p className="p-10">Couldn't load the event. Please refresh.</p>,
+  errorComponent: ({ error }) => (
+    <div className="p-10">
+      <p>Couldn't load the event. Please refresh.</p>
+      <p className="mt-4 break-words text-xs opacity-60">Details: {String((error as Error)?.message ?? error).slice(0, 300)}</p>
+    </div>
+  ),
   notFoundComponent: () => <p className="p-10">Event not found.</p>,
   component: Splash,
 });
