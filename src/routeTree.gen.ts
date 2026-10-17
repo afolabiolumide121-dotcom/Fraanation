@@ -21,6 +21,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticated/account'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedFeedRouteImport } from './routes/_authenticated/feed'
 import { Route as ProductIdRouteImport } from './routes/product.$id'
 import { Route as AuthenticatedMUsernameRouteImport } from './routes/_authenticated/m.$username'
@@ -84,6 +85,11 @@ const AuthenticatedAccountRoute = AuthenticatedAccountRouteImport.update({
   path: '/account',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedFeedRoute = AuthenticatedFeedRouteImport.update({
   id: '/feed',
   path: '/feed',
@@ -112,6 +118,7 @@ export interface FileRoutesByFullPath {
   '/events': typeof EventsRoute
   '/gallery': typeof GalleryRoute
   '/account': typeof AuthenticatedAccountRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/feed': typeof AuthenticatedFeedRoute
   '/product/$id': typeof ProductIdRoute
   '/m/$username': typeof AuthenticatedMUsernameRoute
@@ -128,6 +135,7 @@ export interface FileRoutesByTo {
   '/events': typeof EventsRoute
   '/gallery': typeof GalleryRoute
   '/account': typeof AuthenticatedAccountRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/feed': typeof AuthenticatedFeedRoute
   '/product/$id': typeof ProductIdRoute
   '/m/$username': typeof AuthenticatedMUsernameRoute
@@ -146,6 +154,7 @@ export interface FileRoutesById {
   '/events': typeof EventsRoute
   '/gallery': typeof GalleryRoute
   '/_authenticated/account': typeof AuthenticatedAccountRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/feed': typeof AuthenticatedFeedRoute
   '/product/$id': typeof ProductIdRoute
   '/_authenticated/m/$username': typeof AuthenticatedMUsernameRoute
@@ -164,6 +173,7 @@ export interface FileRouteTypes {
     | '/events'
     | '/gallery'
     | '/account'
+    | '/admin'
     | '/feed'
     | '/product/$id'
     | '/m/$username'
@@ -180,6 +190,7 @@ export interface FileRouteTypes {
     | '/events'
     | '/gallery'
     | '/account'
+    | '/admin'
     | '/feed'
     | '/product/$id'
     | '/m/$username'
@@ -197,6 +208,7 @@ export interface FileRouteTypes {
     | '/events'
     | '/gallery'
     | '/_authenticated/account'
+    | '/_authenticated/admin'
     | '/_authenticated/feed'
     | '/product/$id'
     | '/_authenticated/m/$username'
@@ -303,6 +315,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAccountRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/feed': {
       id: '/_authenticated/feed'
       path: '/feed'
@@ -329,12 +348,14 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAccountRoute: typeof AuthenticatedAccountRoute
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedFeedRoute: typeof AuthenticatedFeedRoute
   AuthenticatedMUsernameRoute: typeof AuthenticatedMUsernameRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAccountRoute: AuthenticatedAccountRoute,
+  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedFeedRoute: AuthenticatedFeedRoute,
   AuthenticatedMUsernameRoute: AuthenticatedMUsernameRoute,
 }

@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { QRCodeSVG } from "qrcode.react";
+import { QRCodeSVG, QRCodeCanvas } from "qrcode.react";
 import { Button } from "@/components/ui/button";
 import { registerForEvent, lookupRegistration, registrationSchema, type EventRow } from "@/lib/events.functions";
+import { renderTicketImage } from "@/lib/ticket-image";
 
 const field = "w-full border-0 border-b hairline bg-transparent py-3 text-lg outline-none placeholder:text-muted-foreground focus:border-ink";
 const TICKET_KEY = "fraa-splash-ticket";
+const WHATSAPP_GROUP_URL = "https://chat.whatsapp.com/JfOiBnIXMlsIFFwse8F6Dn?mode=gi_t";
 
 export type Ticket = { code: string; fullName: string; guests: number; already?: boolean };
 
@@ -50,6 +52,32 @@ export function TicketPass({ t, ev }: { t: Ticket; ev: EventRow }) {
 
 function YoureIn({ t, ev, onReset }: { t: Ticket; ev: EventRow; onReset: () => void }) {
   const [shareMsg, setShareMsg] = useState("");
+  const [saving, setSaving] = useState(false);
+  const qrWrap = useRef<HTMLDivElement>(null);
+  async function saveTicket() {
+    setSaving(true);
+    setShareMsg("");
+    try {
+      const qr = qrWrap.current?.querySelector("canvas") ?? null;
+      const blob = await renderTicketImage(t, ev, qr);
+      const file = new File([blob], `FRAANATION-ticket-${t.code}.png`, { type: "image/png" });
+      if (navigator.canShare?.({ files: [file] })) {
+        try { await navigator.share({ files: [file], title: "My FRAANATION ticket" }); setShareMsg("Choose Save Image to keep it in your photos."); }
+        catch { /* user cancelled */ }
+      } else {
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = file.name;
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+        setShareMsg("Ticket saved to your downloads.");
+      }
+    } catch {
+      setShareMsg("Couldn't save the image. Please screenshot your ticket instead.");
+    } finally {
+      setSaving(false);
+    }
+  }
   const text = "I'M GOING TO FRAANATION AFTER DARK.\nNOV 25.\n9PM TILL DAWN.\nFRAANATION.";
   async function share() {
     const url = `${window.location.origin}/events`;
@@ -66,7 +94,12 @@ function YoureIn({ t, ev, onReset }: { t: Ticket; ev: EventRow; onReset: () => v
         <p className="mt-3 text-sm opacity-70">Screenshot your pass and show it at the entrance. Keep your reference safe.</p>
       </div>
       <TicketPass t={t} ev={ev} />
+      <div ref={qrWrap} aria-hidden="true" style={{ position: "absolute", left: -9999, top: 0 }}>
+        <QRCodeCanvas value={t.code} size={300} marginSize={1} bgColor="#FFFFFF" fgColor="#111111" />
+      </div>
       <div className="grid gap-3">
+        <button onClick={saveTicket} disabled={saving} className="btn-light w-full disabled:opacity-60">{saving ? "Preparing ticket…" : "Download my ticket"} <span>↓</span></button>
+        <a href={WHATSAPP_GROUP_URL} target="_blank" rel="noreferrer" className="btn-light w-full">Join our WhatsApp group <span>→</span></a>
         <button onClick={share} className="btn-light w-full">Share — I'm going <span>↗</span></button>
         <a href={mapsUrl(`${ev.venue}, ${ev.address}`)} target="_blank" rel="noreferrer" className="btn-light w-full">Get directions <span>→</span></a>
         {shareMsg && <p className="text-sm opacity-70">{shareMsg}</p>}
