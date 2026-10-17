@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import type { SupabaseClient } from "@supabase/supabase-js";
 
 export type Profile = { id: string; username: string; display_name: string; bio: string; instagram: string | null; avatar_path: string | null };
 export type Post = {
@@ -112,6 +113,13 @@ export function PostCard({ post, meId }: { post: Post; meId: string }) {
     if (post.image_path) await supabase.storage.from("community").remove([post.image_path]);
     qc.invalidateQueries({ queryKey: ["posts"] });
   }
+  const [reported, setReported] = useState(false);
+  async function reportPost() {
+    if (!confirm("Report this post to the FRAANATION team?")) return;
+    const { error } = await (supabase as unknown as SupabaseClient).from("post_reports").insert({ post_id: post.id, reporter_id: meId, reason: "" });
+    if (error && error.code !== "23505") { alert("Reporting isn't available right now. Please message us on WhatsApp."); return; }
+    setReported(true);
+  }
   async function removeComment(id: string) {
     await supabase.from("post_comments").delete().eq("id", id);
     qc.invalidateQueries({ queryKey: ["comments", post.id] }); qc.invalidateQueries({ queryKey: ["posts"] });
@@ -129,6 +137,7 @@ export function PostCard({ post, meId }: { post: Post; meId: string }) {
             </span>
           </Link>
         )}
+        {post.author_id !== meId && <button onClick={reportPost} disabled={reported} className="eyebrow ml-auto min-h-11 opacity-50 hover:opacity-100">{reported ? "Reported" : "Report"}</button>}
         {post.author_id === meId && <button onClick={removePost} className="eyebrow ml-auto min-h-11 opacity-50 hover:opacity-100">Delete</button>}
       </header>
       {post.body && <p className="mt-4 whitespace-pre-wrap text-[1.05rem] leading-relaxed">{post.body}</p>}

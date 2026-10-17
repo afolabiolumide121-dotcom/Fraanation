@@ -2,7 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { formatNaira } from "@/lib/brand-data";
+import { useMediaUrl } from "@/lib/community";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
@@ -25,7 +27,7 @@ function waLink(phone: string, text: string) {
 const when = (s: string) => new Date(s).toLocaleString("en-NG", { dateStyle: "medium", timeStyle: "short" });
 
 function Admin() {
-  const [tab, setTab] = useState<"orders" | "guests" | "stock">("orders");
+  const [tab, setTab] = useState<"orders" | "guests" | "stock" | "community">("orders");
   const role = useQuery({
     queryKey: ["admin-role"],
     queryFn: async () => {
@@ -55,7 +57,7 @@ function Admin() {
         <p className="eyebrow text-muted-foreground">{role.data.email}</p>
       </div>
       <div className="mt-6 flex gap-2">
-        {(["orders", "guests", "stock"] as const).map((t) => (
+        {(["orders", "guests", "stock", "community"] as const).map((t) => (
           <button key={t} onClick={() => setTab(t)} className={`${chip} ${tab === t ? "bg-ink text-ink-foreground" : ""}`}>{t === "guests" ? "Guest list" : t}</button>
         ))}
       </div>
@@ -63,6 +65,7 @@ function Admin() {
         {tab === "orders" && <Orders />}
         {tab === "guests" && <Guests />}
         {tab === "stock" && <Stock />}
+        {tab === "community" && <CommunityTab />}
       </div>
     </section>
   );
@@ -272,6 +275,81 @@ function Stock() {
           <button type="submit" className="btn-ink w-full">Save product <span>→</span></button>
         </form>
       )}
+    </div>
+  );
+}
+
+type AdminPost = { id: string; body: string; image_path: string | null; created_at: string; author: { username: string } | null };
+
+function Thumb({ path }: { path: string }) {
+  const url = useMediaUrl(path);
+  return url ? <img src={url} alt="" className="mt-2 h-24 w-24 object-cover" /> : null;
+}
+
+function CommunityTab() {
+  const qc = useQueryClient();
+  const db = supabase as unknown as SupabaseClient;
+  const [err, setErr] = useState("");
+  const posts = useQuery({
+    queryKey: ["admin-posts"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("posts")
+        .select("id, body, image_path, created_at, author:profiles!posts_author_id_fkey(username)")
+        .order("created_at", { ascending: false }).limit(80);
+      if (error) throw error;
+      return data as unknown as AdminPost[];
+    },
+  });
+  const reports = useQuery({
+    queryKey: ["admin-reports"],
+    queryFn: async () => {
+      const { data, error } = await db.from("post_reports").select("post_id");
+      if (error) return null;
+      return data as { post_id: string }[];
+    },
+  });
+  const counts = new Map<string, number>();
+  reports.data?.forEach((r) => counts.set(r.post_id, (counts.get(r.post_id) ?? 0) + 1));
+  const refresh = () => { qc.invalidateQueries({ queryKey: ["admin-posts"] }); qc.invalidateQueries({ queryKey: ["admin-reports"] }); qc.invalidateQueries({ queryKey: ["posts"] }); };
+  async function del(id: string) {
+    if (!confirm("Delete this post for everyone?")) return;
+    setErr("");
+    const { error } = await supabase.from("posts").delete().eq("id", id);
+    if (error) setErr(error.message);
+    refresh();
+  }
+  async function dismiss(id: string) {
+    await db.from("post_reports").delete().eq("post_id", id);
+    refresh();
+  }
+  const list = [...(posts.data ?? [])].sort((a, b) => (counts.get(b.id) ?? 0) - (counts.get(a.id) ?? 0));
+  const flagged = list.filter((p) => counts.has(p.id)).length;
+  return (
+    <div>
+      <div className="grid grid-cols-2 gap-3 text-center">
+        <div className="border hairline p-3"><p className="font-display text-3xl">{posts.data?.length ?? 0}</p><p className="eyebrow">Recent posts</p></div>
+        <div className="border hairline p-3"><p className="font-display text-3xl">{reports.data === null ? "–" : flagged}</p><p className="eyebrow">Reported</p></div>
+      </div>
+      {reports.data === null && <p className="mt-4 text-sm text-muted-foreground">Reporting isn't switched on yet. Run the community SQL in the database to turn it on. You can still delete posts below.</p>}
+      {(posts.error || err) && <p className="mt-3 text-sm text-destructive">{err || (posts.error as Error).message}</p>}
+      {posts.isLoading && <p className="mt-6">Loading…</p>}
+      <ul className="mt-4">
+        {list.map((p) => (
+          <li key={p.id} className="border-b hairline py-4">
+            <div className="flex items-baseline justify-between gap-3">
+              <span className="font-semibold">@{p.author?.username ?? "member"}</span>
+              <span className="eyebrow shrink-0">{counts.has(p.id) ? `${counts.get(p.id)} report${counts.get(p.id) === 1 ? "" : "s"} · ` : ""}{when(p.created_at)}</span>
+            </div>
+            {p.body && <p className="mt-2 whitespace-pre-wrap text-sm">{p.body.slice(0, 300)}</p>}
+            {p.image_path && <Thumb path={p.image_path} />}
+            <div className="mt-3 flex gap-2">
+              <button className={chip} onClick={() => del(p.id)}>Delete post</button>
+              {counts.has(p.id) && <button className={chip} onClick={() => dismiss(p.id)}>Dismiss reports</button>}
+            </div>
+          </li>
+        ))}
+        {!posts.isLoading && list.length === 0 && <li className="py-8 text-muted-foreground">No posts yet.</li>}
+      </ul>
     </div>
   );
 }
