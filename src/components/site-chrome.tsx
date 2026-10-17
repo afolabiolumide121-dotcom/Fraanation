@@ -91,7 +91,7 @@ export function SiteFooter() {
             ))}
           </nav>
         </div>
-        <p className="font-display mt-20 select-none text-[23vw] leading-[0.78] tracking-tight md:text-[17.5vw]">
+        <p className="font-display mt-20 select-none text-[19.5vw] leading-[0.78] tracking-tight md:text-[17.5vw]">
           FRAANATION
         </p>
         <div className="flex justify-between border-t border-ink-foreground/15 py-5">

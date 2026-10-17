@@ -30,7 +30,7 @@ function Index() {
           </div>
 
           <div className="mt-auto pb-8">
-            <p className="font-editorial rise text-[2.6rem] leading-none md:text-7xl" style={{ animationDelay: "150ms" }}>
+            <p className="font-editorial rise whitespace-nowrap text-[2.3rem] leading-none md:text-7xl" style={{ animationDelay: "150ms" }}>
               The summer belongs to
             </p>
             <h1 className="font-display rise -ml-1 text-[19.5vw] leading-[0.8] md:text-[15vw]" style={{ animationDelay: "250ms" }}>
@@ -40,8 +40,8 @@ function Index() {
             <Link to="/events" hash="register" className="rise group mt-8 flex items-end justify-between gap-6 border-t border-ink-foreground/30 pt-5 md:max-w-xl" style={{ animationDelay: "400ms" }}>
               <div>
                 <p className="eyebrow text-sun">Upcoming experience</p>
-                <p className="font-display mt-2 text-4xl">{poolParty.title}</p>
-                <p className="eyebrow mt-2 opacity-70">{poolParty.price} entry · {poolParty.month} · {poolParty.venue}</p>
+                <p className="font-display mt-2 text-balance text-4xl">{poolParty.title}</p>
+                <p className="eyebrow mt-2 text-pretty opacity-70">{poolParty.price} entry · {poolParty.month} · {poolParty.venue}</p>
               </div>
               <span className="eyebrow whitespace-nowrap border-b border-ink-foreground pb-1 transition-colors group-hover:border-sun group-hover:text-sun">Register →</span>
             </Link>
