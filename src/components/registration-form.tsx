@@ -3,7 +3,8 @@ import { Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { QRCodeSVG, QRCodeCanvas } from "qrcode.react";
 import { Button } from "@/components/ui/button";
-import { registerForEvent, lookupRegistration, registrationSchema, type EventRow } from "@/lib/events.functions";
+import { registerForEvent, registrationSchema, type EventRow } from "@/lib/events.functions";
+import { lookupSpot } from "@/lib/reservation";
 import { renderTicketImage } from "@/lib/ticket-image";
 
 const field = "w-full border-0 border-b hairline bg-transparent py-3 text-lg outline-none placeholder:text-muted-foreground focus:border-ink";
@@ -218,14 +219,13 @@ export function RegistrationForm({ ev }: { ev: EventRow }) {
 }
 
 export function LookupForm() {
-  const lookup = useServerFn(lookupRegistration);
   const [code, setCode] = useState("");
   const [email, setEmail] = useState("");
   const [msg, setMsg] = useState("");
   async function go(e: React.FormEvent) {
     e.preventDefault();
     try {
-      const r = await lookup({ data: { code, email } });
+      const r = await lookupSpot(code, email);
       if (!r) setMsg("No reservation found for that reference and email.");
       else if (r.status === "cancelled") setMsg(`Reservation ${r.code} has been cancelled.`);
       else setMsg(`Confirmed — ${r.full_name}, ${r.guests} ${r.guests === 1 ? "guest" : "guests"} for ${r.event_title}.`);

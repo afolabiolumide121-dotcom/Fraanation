@@ -233,7 +233,7 @@ function Stock() {
     const { error } = await supabase.from("products").insert({
       id, name: f.name.trim(), price: Math.round(Number(f.price)), stock: Math.max(0, Math.round(Number(f.stock))),
       description: f.description.trim(), signature: f.signature.trim(), colours: list(f.colours), sizes: list(f.sizes),
-      image_key: f.image_key, sort_order: data.length + 1, active: true,
+      image_key: f.image_key, sort_order: Math.min(0, ...data.map((p) => p.sort_order)) - 1, active: true,
     });
     if (error) { setErr(error.message); return; }
     setAdding(false);

@@ -15,7 +15,7 @@ export const Route = createFileRoute("/collection")({
       { property: "og:description", content: "Every piece carries the FRAA signature." },
     ],
   }),
-  loader: ({ context }) => context.queryClient.ensureQueryData(productsQuery()),
+  loader: ({ context }) => context.queryClient.ensureQueryData(productsQuery()).catch(() => null),
   errorComponent: () => <p className="px-5 py-24 text-center">The collection couldn't load. Please refresh.</p>,
   notFoundComponent: () => <p className="px-5 py-24 text-center">Not found.</p>,
   component: Collection,

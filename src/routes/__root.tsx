@@ -14,6 +14,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader, SiteFooter } from "@/components/site-chrome";
 import { CartProvider } from "@/lib/cart";
+import { ReserveProvider } from "@/components/reserve-dialog";
 
 function NotFoundComponent() {
   return (
@@ -89,9 +90,11 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <CartProvider>
-        <SiteHeader />
-        <main><Outlet /></main>
-        <SiteFooter />
+        <ReserveProvider>
+          <SiteHeader />
+          <main><Outlet /></main>
+          <SiteFooter />
+        </ReserveProvider>
       </CartProvider>
     </QueryClientProvider>
   );

@@ -1,10 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useServerFn } from "@tanstack/react-start";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useCart, type CartItem } from "@/lib/cart";
 import { formatNaira } from "@/lib/brand-data";
-import { placeOrder, checkoutSchema } from "@/lib/shop.functions";
+import { placeOrderClient, checkoutSchema } from "@/lib/shop.functions";
 
 export const Route = createFileRoute("/checkout")({
   head: () => ({
@@ -55,7 +54,6 @@ function Summary({ items, total }: { items: CartItem[]; total: number }) {
 function Checkout() {
   const cart = useCart();
   const qc = useQueryClient();
-  const submitOrder = useServerFn(placeOrder);
   const [form, setForm] = useState<Form>({ fullName: "", phone: "", email: "", address: "", city: "", state: "", instagram: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [busy, setBusy] = useState(false);
@@ -113,7 +111,7 @@ function Checkout() {
     setBusy(true);
     try {
       const items = cart.items;
-      const res = await submitOrder({ data: { customer: parsed.data, items: items.map((i) => ({ product_id: i.productId, size: i.size, colour: i.colour, quantity: i.quantity })) } });
+      const res = await placeOrderClient({ customer: parsed.data, items: items.map((i) => ({ product_id: i.productId, size: i.size, colour: i.colour, quantity: i.quantity })) });
       if (res.ok) {
         setDone({ code: res.code, total: res.total, items });
         cart.clear();

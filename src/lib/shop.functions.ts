@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { queryOptions } from "@tanstack/react-query";
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
+import { supabase } from "@/integrations/supabase/client";
 
 export type ShopProduct = {
   id: string; name: string; price: number; stock: number; description: string; signature: string;
@@ -34,8 +35,19 @@ export const listProducts = createServerFn({ method: "GET" }).handler(async () =
   return (data ?? []) as ShopProduct[];
 });
 
+// Read straight from the browser so the shop doesn't depend on the web server's connection to the database.
+export async function listProductsClient(): Promise<ShopProduct[]> {
+  const { data, error } = await supabase
+    .from("products")
+    .select("id, name, price, stock, description, signature, colours, sizes, image_key")
+    .eq("active", true)
+    .order("sort_order");
+  if (error) throw new Error(error.message);
+  return (data ?? []) as unknown as ShopProduct[];
+}
+
 export const productsQuery = () =>
-  queryOptions({ queryKey: ["products"], queryFn: () => listProducts(), staleTime: 15_000 });
+  queryOptions({ queryKey: ["products"], queryFn: listProductsClient, staleTime: 15_000 });
 
 export const checkoutSchema = z.object({
   fullName: z.string().trim().min(2, "Enter your full name").max(100),
@@ -65,3 +77,15 @@ export const placeOrder = createServerFn({ method: "POST" })
     const r = (rows as unknown as { code: string; total: number }[])[0]!;
     return { ok: true as const, code: r.code, total: r.total };
   });
+
+export async function placeOrderClient(input: { customer: z.input<typeof checkoutSchema>; items: z.input<typeof itemSchema>[] }) {
+  const data = z.object({ customer: checkoutSchema, items: z.array(itemSchema).min(1).max(20) }).parse(input);
+  const c = data.customer;
+  const { data: rows, error } = await supabase.rpc("place_order" as never, {
+    _full_name: c.fullName, _email: c.email, _phone: c.phone, _address: c.address, _city: c.city,
+    _state: c.state, _instagram: c.instagram || null, _items: data.items,
+  } as never);
+  if (error) return { ok: false as const, error: error.message };
+  const r = (rows as unknown as { code: string; total: number }[])[0]!;
+  return { ok: true as const, code: r.code, total: r.total };
+}

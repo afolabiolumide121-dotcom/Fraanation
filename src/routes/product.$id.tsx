@@ -7,7 +7,8 @@ import { productImage } from "@/lib/product-images";
 
 export const Route = createFileRoute("/product/$id")({
   loader: async ({ context, params }) => {
-    const list = await context.queryClient.ensureQueryData(productsQuery());
+    const list = await context.queryClient.ensureQueryData(productsQuery()).catch(() => null);
+    if (!list) return null;
     const p = list.find((x) => x.id === params.id);
     if (!p) throw notFound();
     return { name: p.name, description: p.description };

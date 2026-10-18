@@ -1,11 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { RegistrationForm, LookupForm, mapsUrl } from "@/components/registration-form";
+import { LookupForm, mapsUrl } from "@/components/registration-form";
+import { ReserveButton } from "@/components/reserve-dialog";
+import { Countdown } from "@/components/countdown";
+import { fetchEvent } from "@/lib/reservation";
 import { heroImage, crowdImage, lookTeeImage, poolParty } from "@/lib/brand-data";
-import { getEvent, type EventRow } from "@/lib/events.functions";
+import type { EventRow } from "@/lib/events.functions";
 
-const eventQuery = queryOptions({ queryKey: ["event", "pool-party"], queryFn: () => getEvent({ data: { slug: "pool-party" } }) });
+const eventQuery = queryOptions({ queryKey: ["event", "pool-party"], queryFn: fetchEvent });
 
 export const Route = createFileRoute("/events")({
   head: () => ({
@@ -16,7 +19,7 @@ export const Route = createFileRoute("/events")({
       { property: "og:description", content: "Nov 25 · 9PM till dawn · The Grand Elysium, Lagos. Free entry — reserve your spot." },
     ],
   }),
-  loader: ({ context }) => context.queryClient.ensureQueryData(eventQuery),
+  loader: ({ context }) => context.queryClient.ensureQueryData(eventQuery).catch(() => null),
   errorComponent: ({ error }) => (
     <div className="p-10">
       <p>Couldn't load the event. Please refresh.</p>
@@ -26,29 +29,6 @@ export const Route = createFileRoute("/events")({
   notFoundComponent: () => <p className="p-10">Event not found.</p>,
   component: Splash,
 });
-
-function useCountdown(target: string) {
-  const [now, setNow] = useState<number | null>(null);
-  useEffect(() => { setNow(Date.now()); const t = setInterval(() => setNow(Date.now()), 1000); return () => clearInterval(t); }, []);
-  if (now === null) return null;
-  const d = Math.max(0, new Date(target).getTime() - now);
-  return { live: d === 0, parts: [["Days", Math.floor(d / 864e5)], ["Hours", Math.floor(d / 36e5) % 24], ["Minutes", Math.floor(d / 6e4) % 60], ["Seconds", Math.floor(d / 1e3) % 60]] as const };
-}
-
-function Countdown({ target }: { target: string }) {
-  const c = useCountdown(target);
-  if (c?.live) return <p className="font-display text-6xl md:text-8xl">After Dark <span className="text-sun">is live.</span></p>;
-  return (
-    <div className="grid grid-cols-4 border-t border-ink-foreground/20">
-      {(c?.parts ?? [["Days", 0], ["Hours", 0], ["Minutes", 0], ["Seconds", 0]]).map(([l, v], i) => (
-        <div key={l} className={`pt-4 ${i ? "border-l border-ink-foreground/20 pl-3 md:pl-6" : ""}`}>
-          <p className="font-display text-5xl tabular-nums md:text-8xl">{String(v).padStart(2, "0")}</p>
-          <p className="eyebrow mt-2 opacity-60">{l}</p>
-        </div>
-      ))}
-    </div>
-  );
-}
 
 function Splash() {
   const { data } = useSuspenseQuery(eventQuery);
@@ -76,7 +56,7 @@ function Splash() {
           </div>
           <p className="eyebrow rise mt-6" style={{ animationDelay: "300ms" }}><span className="bg-sun px-2 py-1 text-ink">Free entry</span> <span className="ml-2">Reservation required</span></p>
           <div className="rise mt-8 grid gap-3 md:flex" style={{ animationDelay: "360ms" }}>
-            <a href="#reserve" className="btn-light w-full md:w-auto">Reserve your spot <span>→</span></a>
+            <ReserveButton className="btn-light w-full md:w-auto" />
             <Link to="/" className="btn-ink w-full border border-ink-foreground/30 md:w-auto">Explore FRAANATION <span>→</span></Link>
           </div>
         </div>
@@ -107,7 +87,12 @@ function Splash() {
       <section id="reserve" className="mx-auto max-w-[1400px] scroll-mt-16 px-5 py-20 md:px-10 md:py-32">
         <div className="grid gap-16 md:grid-cols-12">
           <div id="register" className="scroll-mt-16 md:col-span-5">
-            <RegistrationForm ev={ev} />
+            <div className="bg-paper p-6 text-ink">
+              <p className="eyebrow"><span className="bg-sun px-2 py-1">Free entry</span></p>
+              <h2 className="font-display mt-5 text-6xl leading-[0.9]">Your night.<br />Your <span className="font-editorial text-5xl normal-case">invitation.</span></h2>
+              <p className="mt-4 text-sm text-muted-foreground">Takes 30 seconds. Get your ticket instantly and save it to your phone.</p>
+              <ReserveButton className="btn-ink mt-6 w-full" />
+            </div>
           </div>
           <div className="md:col-span-6 md:col-start-7">
             <p className="eyebrow text-sun">(02) The details</p>

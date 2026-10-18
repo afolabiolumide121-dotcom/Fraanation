@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { EventTicker } from "@/components/site-chrome";
+import { Countdown } from "@/components/countdown";
+import { useReserve } from "@/components/reserve-dialog";
 import { heroImage, lookTeeImage, crowdImage, poolParty, products, formatNaira } from "@/lib/brand-data";
 
 export const Route = createFileRoute("/")({
@@ -15,6 +17,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const { open, hasTicket } = useReserve();
   return (
     <>
       {/* HERO — full-bleed editorial cover */}
@@ -25,7 +28,7 @@ function Index() {
 
         <div className="relative mx-auto flex h-full max-w-[1400px] flex-col px-5 pt-24 md:px-10">
           <div className="flex justify-between">
-            <p className="eyebrow rise">Issue 01 — Summer</p>
+            <p className="eyebrow rise">After Dark · Nov 25</p>
             <p className="eyebrow rise hidden md:block">Lagos / Worldwide</p>
           </div>
 
@@ -37,19 +40,28 @@ function Index() {
               FRAA<span className="text-sun">NATION</span>
             </h1>
 
-            <Link to="/events" hash="register" className="rise group mt-8 flex items-end justify-between gap-6 border-t border-ink-foreground/30 pt-5 md:max-w-xl" style={{ animationDelay: "400ms" }}>
-              <div>
-                <p className="eyebrow text-sun">Upcoming experience</p>
-                <p className="font-display mt-2 text-balance text-4xl">{poolParty.title}</p>
-                <p className="eyebrow mt-2 text-pretty opacity-70">{poolParty.price} entry · {poolParty.month} · {poolParty.venue}</p>
-              </div>
-              <span className="eyebrow whitespace-nowrap border-b border-ink-foreground pb-1 transition-colors group-hover:border-sun group-hover:text-sun">Register →</span>
-            </Link>
+            <div className="rise mt-8 border-t border-ink-foreground/30 pt-5 md:max-w-xl" style={{ animationDelay: "400ms" }}>
+              <p className="eyebrow text-sun">Upcoming experience</p>
+              <Link to="/events" className="font-display mt-2 block text-balance text-4xl">{poolParty.title}</Link>
+              <p className="eyebrow mt-2 text-pretty opacity-70">{poolParty.price} entry · {poolParty.month} · {poolParty.venue}</p>
+              <button type="button" onClick={open} className="mt-5 flex min-h-14 w-full items-center justify-between bg-sun px-5 py-4 text-xs font-semibold uppercase tracking-[0.2em] text-ink transition-transform active:scale-[0.99]">
+                {hasTicket ? "View my ticket" : "Reserve your spot — it's free"} <span aria-hidden="true">→</span>
+              </button>
+              <p className="eyebrow mt-3 opacity-70">Free entry · 9PM till dawn · Limited spots</p>
+            </div>
           </div>
         </div>
       </section>
 
       <EventTicker />
+
+      {/* COUNTDOWN */}
+      <section className="bg-ink text-ink-foreground">
+        <div className="mx-auto max-w-[1400px] px-5 py-14 md:px-10 md:py-20">
+          <p className="eyebrow mb-6 text-sun">Until doors open</p>
+          <Countdown target={poolParty.startsAt} />
+        </div>
+      </section>
 
       {/* MANIFESTO — asymmetric */}
       <section className="mx-auto max-w-[1400px] px-5 py-24 md:px-10 md:py-40">
@@ -107,6 +119,23 @@ function Index() {
         </div>
       </section>
 
+      {/* THE VIBE — gallery strip */}
+      <section className="bg-ink text-ink-foreground">
+        <div className="mx-auto max-w-[1400px] px-5 py-16 md:px-10 md:py-24">
+          <div className="flex items-end justify-between">
+            <h2 className="font-display text-6xl md:text-8xl">The vibe<span className="text-sun">.</span></h2>
+            <Link to="/gallery" className="eyebrow link-draw pb-1">See all →</Link>
+          </div>
+          <div className="-mx-5 mt-8 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-2 md:mx-0 md:grid md:grid-cols-3 md:overflow-visible md:px-0">
+            {[[crowdImage, "FRAANATION crowd"], [lookTeeImage, "FRAA Signature Tee"], [heroImage, "FRAANATION summer"]].map(([src, alt]) => (
+              <Link to="/gallery" key={alt} className="group w-[72vw] shrink-0 snap-center overflow-hidden md:w-auto">
+                <img src={src} alt={alt} loading="lazy" className="img-editorial aspect-[4/5] w-full object-cover" />
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* EVENT FEATURE */}
       <section className="mx-auto max-w-[1400px] px-5 py-24 md:px-10 md:py-40">
         <p className="eyebrow text-muted-foreground">(03) Upcoming</p>
@@ -123,7 +152,7 @@ function Index() {
                 </div>
               ))}
             </dl>
-            <Link to="/events" hash="reserve" className="btn-ink mt-6 w-full">Reserve your spot <span>→</span></Link>
+            <button type="button" onClick={open} className="btn-ink mt-6 w-full">{hasTicket ? "View my ticket" : "Reserve your spot"} <span>→</span></button>
           </div>
         </div>
       </section>
