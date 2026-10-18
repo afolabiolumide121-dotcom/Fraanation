@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { EventTicker } from "@/components/site-chrome";
+import { Sticker, TapeBands, TicketCard, FilmStrip } from "@/components/flair";
 import { Countdown } from "@/components/countdown";
 import { useReserve } from "@/components/reserve-dialog";
 import { heroImage, lookTeeImage, crowdImage, poolParty, products, formatNaira } from "@/lib/brand-data";
@@ -21,10 +21,11 @@ function Index() {
   return (
     <>
       {/* HERO — full-bleed editorial cover */}
-      <section className="relative h-[100svh] min-h-[620px] overflow-hidden bg-ink text-ink-foreground">
+      <section className="grain relative h-[100svh] min-h-[640px] overflow-hidden bg-ink text-ink-foreground">
         <img src={heroImage} alt="FRAANATION summer" width={1088} height={1440}
           className="absolute inset-0 h-full w-full scale-105 object-cover object-[60%_center] animate-in fade-in zoom-in-105 duration-[2000ms]" />
-        <div className="absolute inset-0 bg-gradient-to-b from-ink/50 via-transparent to-ink/85" />
+        <div className="absolute inset-0 bg-gradient-to-b from-ink/55 via-transparent to-ink/90" />
+        <Sticker onClick={open} />
 
         <div className="relative mx-auto flex h-full max-w-[1400px] flex-col px-5 pt-24 md:px-10">
           <div className="flex justify-between">
@@ -40,34 +41,38 @@ function Index() {
               FRAA<span className="text-sun">NATION</span>
             </h1>
 
-            <div className="rise mt-8 border-t border-ink-foreground/30 pt-5 md:max-w-xl" style={{ animationDelay: "400ms" }}>
-              <p className="eyebrow text-sun">Upcoming experience</p>
-              <Link to="/events" className="font-display mt-2 block text-balance text-4xl">{poolParty.title}</Link>
-              <p className="eyebrow mt-2 text-pretty opacity-70">{poolParty.price} entry · {poolParty.month} · {poolParty.venue}</p>
-              <button type="button" onClick={open} className="mt-5 flex min-h-14 w-full items-center justify-between bg-sun px-5 py-4 text-xs font-semibold uppercase tracking-[0.2em] text-ink transition-transform active:scale-[0.99]">
+            <div className="rise mt-8 flex flex-col gap-5 border-t border-ink-foreground/30 pt-6 md:flex-row md:items-center md:gap-10" style={{ animationDelay: "400ms" }}>
+              <button type="button" onClick={open} className="btn-sun w-full md:w-auto">
                 {hasTicket ? "View my ticket" : "Reserve your spot — it's free"} <span aria-hidden="true">→</span>
               </button>
-              <p className="eyebrow mt-3 opacity-70">Free entry · 9PM till dawn · Limited spots</p>
+              <p className="eyebrow leading-relaxed opacity-80">{poolParty.month} · {poolParty.venue}<br />9PM till dawn · Limited spots</p>
             </div>
           </div>
         </div>
       </section>
 
-      <EventTicker />
+      <TapeBands />
 
-      {/* COUNTDOWN */}
-      <section className="bg-ink text-ink-foreground">
-        <div className="mx-auto max-w-[1400px] px-5 py-14 md:px-10 md:py-20">
-          <p className="eyebrow mb-6 text-sun">Until doors open</p>
-          <Countdown target={poolParty.startsAt} />
+      {/* THE EVENT — countdown + ticket */}
+      <section className="grain relative bg-ink text-ink-foreground">
+        <div className="mx-auto grid max-w-[1400px] gap-14 px-5 pb-24 pt-10 md:grid-cols-12 md:items-center md:px-10 md:pb-32 md:pt-16">
+          <div className="md:col-span-6">
+            <p className="eyebrow mb-6 text-sun">Until doors open</p>
+            <Countdown target={poolParty.startsAt} />
+            <p className="font-editorial mt-10 text-3xl leading-tight md:text-5xl">Dress code: bold, poolside, <span className="text-sun">unmistakably you.</span></p>
+            <p className="mt-6 max-w-md text-sm leading-relaxed opacity-70">Music, fashion and people — one night, till dawn. Free entry, by reservation only.</p>
+          </div>
+          <div className="md:col-span-5 md:col-start-8">
+            <TicketCard onReserve={open} hasTicket={hasTicket} />
+          </div>
         </div>
       </section>
 
       {/* MANIFESTO — asymmetric */}
       <section className="mx-auto max-w-[1400px] px-5 py-24 md:px-10 md:py-40">
         <div className="grid gap-12 md:grid-cols-12">
-          <p className="eyebrow text-muted-foreground md:col-span-2">(01) Who we are</p>
-          <h2 className="font-editorial text-[2.5rem] md:col-span-9 md:text-[5.2rem]">
+          <p className="eyebrow text-muted-foreground md:col-span-2">Who we are</p>
+          <h2 className="font-editorial reveal text-[2.5rem] md:col-span-9 md:text-[5.2rem]">
             Entertainment, fashion and social culture — moving as one <span className="not-italic font-display text-[0.9em] tracking-normal">nation.</span>
           </h2>
         </div>
@@ -84,11 +89,22 @@ function Index() {
         </div>
       </section>
 
+      {/* THE VIBE — film strip */}
+      <section className="bg-ink text-ink-foreground">
+        <div className="mx-auto max-w-[1400px] px-5 pb-10 pt-20 md:px-10 md:pt-32">
+          <div className="flex items-end justify-between">
+            <h2 className="font-display reveal text-[22vw] leading-[0.8] md:text-[11rem]">The <span className="text-outline">vibe</span><span className="text-sun">.</span></h2>
+            <Link to="/gallery" className="eyebrow link-draw pb-1">See all →</Link>
+          </div>
+          <FilmStrip onReserve={open} hasTicket={hasTicket} frames={[[crowdImage, "FRAANATION crowd", "The crowd"], [lookTeeImage, "FRAA Signature Tee", "Signed FRAA"], [heroImage, "FRAANATION summer", "Summer cover"]]} />
+        </div>
+      </section>
+
       {/* COLLECTION — lookbook split */}
       <section className="bg-paper">
         <div className="mx-auto max-w-[1400px] px-5 py-20 md:px-10 md:py-32">
           <div className="flex items-end justify-between border-b hairline pb-5">
-            <p className="eyebrow">(02) The FRAANATION Collection</p>
+            <p className="eyebrow">The FRAANATION Collection</p>
             <Link to="/collection" className="eyebrow link-draw pb-1">Shop all →</Link>
           </div>
 
@@ -115,44 +131,6 @@ function Index() {
                 </Link>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* THE VIBE — gallery strip */}
-      <section className="bg-ink text-ink-foreground">
-        <div className="mx-auto max-w-[1400px] px-5 py-16 md:px-10 md:py-24">
-          <div className="flex items-end justify-between">
-            <h2 className="font-display text-6xl md:text-8xl">The vibe<span className="text-sun">.</span></h2>
-            <Link to="/gallery" className="eyebrow link-draw pb-1">See all →</Link>
-          </div>
-          <div className="-mx-5 mt-8 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-2 md:mx-0 md:grid md:grid-cols-3 md:overflow-visible md:px-0">
-            {[[crowdImage, "FRAANATION crowd"], [lookTeeImage, "FRAA Signature Tee"], [heroImage, "FRAANATION summer"]].map(([src, alt]) => (
-              <Link to="/gallery" key={alt} className="group w-[72vw] shrink-0 snap-center overflow-hidden md:w-auto">
-                <img src={src} alt={alt} loading="lazy" className="img-editorial aspect-[4/5] w-full object-cover" />
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* EVENT FEATURE */}
-      <section className="mx-auto max-w-[1400px] px-5 py-24 md:px-10 md:py-40">
-        <p className="eyebrow text-muted-foreground">(03) Upcoming</p>
-        <div className="mt-8 grid items-end gap-10 md:grid-cols-12">
-          <h2 className="font-display text-[24vw] md:col-span-8 md:text-[13rem]">
-            After<br /><span className="font-editorial normal-case tracking-tight">Dark</span>
-          </h2>
-          <div className="md:col-span-4">
-            <dl className="divide-y hairline border-y hairline">
-              {[["Date", poolParty.date], ["Venue", poolParty.venue], ["Entry", poolParty.price], ["City", poolParty.city]].map(([k, v]) => (
-                <div key={k} className="flex justify-between py-3">
-                  <dt className="eyebrow text-muted-foreground">{k}</dt>
-                  <dd className="text-sm font-semibold">{k === "Entry" ? <span className="bg-sun px-1.5">{v}</span> : v}</dd>
-                </div>
-              ))}
-            </dl>
-            <button type="button" onClick={open} className="btn-ink mt-6 w-full">{hasTicket ? "View my ticket" : "Reserve your spot"} <span>→</span></button>
           </div>
         </div>
       </section>

@@ -61,7 +61,7 @@ function ReserveForm({ ev, onDone }: { ev: EventRow; onDone: (t: Ticket) => void
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     const errs: { fullName?: string; phone?: string; email?: string } = {};
-    if (f.fullName.trim().length < 2) errs.fullName = "Please enter your full name";
+    if (f.fullName.trim().length < 2) errs.fullName = "Add a nickname (at least 2 letters)";
     if (!/^[+\d\s()-]{7,20}$/.test(f.phone.trim())) errs.phone = "Enter a valid phone number";
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.email.trim())) errs.email = "Enter a valid email";
     setErrors(errs);
@@ -79,7 +79,7 @@ function ReserveForm({ ev, onDone }: { ev: EventRow; onDone: (t: Ticket) => void
   }
 
   const fields = [
-    { k: "fullName", label: "Full name", type: "text", auto: "name", ph: "Your name" },
+    { k: "fullName", label: "Nickname", type: "text", auto: "nickname", ph: "What should we call you?" },
     { k: "phone", label: "WhatsApp number", type: "tel", auto: "tel", ph: "+234" },
     { k: "email", label: "Email address", type: "email", auto: "email", ph: "you@example.com" },
   ] as const;
