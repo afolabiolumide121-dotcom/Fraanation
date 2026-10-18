@@ -158,7 +158,7 @@ function Checkout() {
             <p className="eyebrow">03 — Order summary</p>
             <Summary items={cart.items} total={cart.subtotal} />
             {serverError && <p className="mt-4 border-l-2 border-destructive pl-3 text-sm text-destructive">{serverError}</p>}
-            <button type="submit" disabled={busy} className="btn-ink mt-6 w-full disabled:opacity-60">
+            <button type="submit" disabled={busy} className="btn-sun mt-6 w-full [--shadow-c:#111]">
               {busy ? "Placing order…" : <>Place order <span>→</span></>}
             </button>
           </div>

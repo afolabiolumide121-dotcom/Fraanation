@@ -17,7 +17,7 @@ function Community() {
   const features = ["Your profile & username", "Posts & pictures", "Comments & likes", "After Dark event chat", "Report anything — we moderate"];
   return (
     <div className="bg-ink text-ink-foreground">
-      <section className="relative overflow-hidden">
+      <section className="grain relative overflow-hidden">
         <img src={crowdImage} alt="FRAANATION members" width={1600} height={1008} className="absolute inset-0 h-full w-full object-cover opacity-40" />
         <div className="relative mx-auto max-w-[1400px] px-5 pb-16 pt-24 md:px-10 md:pb-28 md:pt-40">
           <p className="eyebrow text-sun">Members only — now open</p>
@@ -34,7 +34,7 @@ function Community() {
             </li>
           ))}
         </ul>
-        <Link to="/auth" className="btn-light mt-10 w-full md:w-auto">Join the Nation <span>→</span></Link>
+        <Link to="/auth" className="btn-sun mt-10 w-full md:w-auto">Join the Nation <span>→</span></Link>
       </section>
     </div>
   );

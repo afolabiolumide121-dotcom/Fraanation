@@ -60,7 +60,7 @@ export function BuyPanel({ p }: { p: ShopProduct }) {
       ) : (
         <div className="mt-6 flex gap-3">
           <Qty value={Math.min(qty, Math.max(1, left))} max={Math.max(1, left)} onChange={setQty} />
-          <button onClick={add} disabled={left <= 0} className="btn-ink flex-1 disabled:opacity-50">
+          <button onClick={add} disabled={left <= 0} className="btn-sun flex-1 [--shadow-c:#111]">
             {left <= 0 ? "All stock in your cart" : <>Add to cart <span>{formatNaira(p.price * Math.min(qty, left))}</span></>}
           </button>
         </div>

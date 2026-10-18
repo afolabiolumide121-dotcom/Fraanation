@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHero } from "@/components/site-chrome";
+import { CtaBand } from "@/components/flair";
 import { heroImage, lookTeeImage, crowdImage, products } from "@/lib/brand-data";
 
 export const Route = createFileRoute("/gallery")({
@@ -27,11 +28,14 @@ function Gallery() {
       <PageHero index="05" eyebrow="Moments" title="Gallery" sub="Captured in the heat of it." />
       <section className="mx-auto grid max-w-[1400px] gap-4 px-5 pb-24 md:grid-cols-12 md:gap-8 md:px-10">
         {items.map((it, i) => (
-          <figure key={i} className={`group overflow-hidden ${it.cls}`}>
+          <figure key={i} className={`group relative overflow-hidden ${it.cls}`}>
             <img src={it.src} alt="FRAANATION moment" loading="lazy" className="img-editorial h-full w-full object-cover" />
+            <span className="font-display absolute left-3 top-3 text-2xl text-sun drop-shadow">{String(i + 1).padStart(2, "0")}</span>
           </figure>
         ))}
       </section>
+
+      <CtaBand line="Be in the" accent="next frame." secondary={{ to: "/community", label: "Join the community" }} />
     </>
   );
 }

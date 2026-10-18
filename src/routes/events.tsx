@@ -2,7 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { LookupForm, mapsUrl } from "@/components/registration-form";
-import { ReserveButton } from "@/components/reserve-dialog";
+import { ReserveButton, useReserve } from "@/components/reserve-dialog";
+import { Sticker, TapeBands } from "@/components/flair";
 import { Countdown } from "@/components/countdown";
 import { fetchEvent } from "@/lib/reservation";
 import { heroImage, crowdImage, lookTeeImage, poolParty } from "@/lib/brand-data";
@@ -38,11 +39,13 @@ function Splash() {
     starts_at: poolParty.startsAt, time_text: poolParty.time, address: poolParty.address, max_guests_per_reservation: 4,
   };
   const full = `${ev.venue}, ${ev.address}`;
+  const { open } = useReserve();
 
   return (
     <div className="bg-ink text-ink-foreground">
       {/* HERO */}
-      <section className="relative -mt-px min-h-[100svh] overflow-hidden">
+      <section className="grain relative -mt-px min-h-[100svh] overflow-hidden">
+        <Sticker onClick={open} />
         <img src={heroImage} alt="FRAANATION After Dark" width={1088} height={1440} className="absolute inset-0 h-full w-full object-cover opacity-55" />
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/30 to-transparent" />
         <div className="relative mx-auto flex min-h-[100svh] max-w-[1400px] flex-col justify-end px-5 pb-10 pt-24 md:px-10 md:pb-16">
@@ -56,11 +59,13 @@ function Splash() {
           </div>
           <p className="eyebrow rise mt-6" style={{ animationDelay: "300ms" }}><span className="bg-sun px-2 py-1 text-ink">Free entry</span> <span className="ml-2">Reservation required</span></p>
           <div className="rise mt-8 grid gap-3 md:flex" style={{ animationDelay: "360ms" }}>
-            <ReserveButton className="btn-light w-full md:w-auto" />
+            <ReserveButton className="btn-sun w-full md:w-auto" />
             <Link to="/" className="btn-ink w-full border border-ink-foreground/30 md:w-auto">Explore FRAANATION <span>→</span></Link>
           </div>
         </div>
       </section>
+
+      <TapeBands />
 
       {/* COUNTDOWN */}
       <section className="mx-auto max-w-[1400px] px-5 py-16 md:px-10 md:py-24">
@@ -87,7 +92,7 @@ function Splash() {
       <section id="reserve" className="mx-auto max-w-[1400px] scroll-mt-16 px-5 py-20 md:px-10 md:py-32">
         <div className="grid gap-16 md:grid-cols-12">
           <div id="register" className="scroll-mt-16 md:col-span-5">
-            <div className="bg-paper p-6 text-ink">
+            <div className="relative rotate-[-1deg] bg-paper p-6 text-ink shadow-[8px_8px_0_#FFD900]">
               <p className="eyebrow"><span className="bg-sun px-2 py-1">Free entry</span></p>
               <h2 className="font-display mt-5 text-6xl leading-[0.9]">Your night.<br />Your <span className="font-editorial text-5xl normal-case">invitation.</span></h2>
               <p className="mt-4 text-sm text-muted-foreground">Takes 30 seconds. Get your ticket instantly and save it to your phone.</p>

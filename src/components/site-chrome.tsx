@@ -2,6 +2,8 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { poolParty } from "@/lib/brand-data";
 import { useCart } from "@/lib/cart";
+import { TapeLine } from "@/components/flair";
+import { ReserveButton } from "@/components/reserve-dialog";
 
 const nav = [
   { to: "/events", label: "Events" },
@@ -16,7 +18,7 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const path = useRouterState({ select: (s) => s.location.pathname });
   const { count } = useCart();
-  const overHero = path === "/" && !open;
+  const overHero = ["/", "/about", "/collection", "/contact", "/gallery", "/events", "/community"].includes(path) && !open;
   useEffect(() => setOpen(false), [path]);
   useEffect(() => { document.body.style.overflow = open ? "hidden" : ""; }, [open]);
 
@@ -79,11 +81,13 @@ export function EventTicker() {
 
 export function SiteFooter() {
   return (
-    <footer className="bg-ink text-ink-foreground">
-      <div className="mx-auto max-w-[1400px] px-5 pt-16 md:px-10">
+    <footer className="grain relative bg-ink text-ink-foreground">
+      <TapeLine />
+      <div className="mx-auto max-w-[1400px] px-5 pt-12 md:px-10">
         <div className="grid gap-12 md:grid-cols-12">
           <p className="font-editorial text-4xl md:col-span-6 md:text-6xl">
             A culture, <br />not a <span className="text-sun">moment.</span>
+            <ReserveButton className="btn-sun mt-8 w-full text-left font-sans not-italic md:w-auto" />
           </p>
           <nav className="grid grid-cols-2 gap-y-4 md:col-span-4 md:col-start-9">
             {nav.map((n) => (
@@ -103,15 +107,18 @@ export function SiteFooter() {
   );
 }
 
-export function PageHero({ index, eyebrow, title, sub }: { index: string; eyebrow: string; title: string; sub?: string }) {
+export function PageHero({ eyebrow, title, sub }: { index?: string; eyebrow: string; title: string; sub?: string }) {
   return (
-    <section className="mx-auto max-w-[1400px] px-5 pb-10 pt-12 md:px-10 md:pb-16 md:pt-20">
-      <div className="flex items-center justify-between border-b hairline pb-4">
-        <p className="eyebrow">{eyebrow}</p>
-        <p className="eyebrow text-muted-foreground">N°{index}</p>
+    <section className="grain relative overflow-hidden bg-ink text-ink-foreground">
+      <div className="relative mx-auto max-w-[1400px] px-5 pb-4 pt-28 md:px-10 md:pb-8 md:pt-40">
+        <div className="flex items-center justify-between gap-4">
+          <p className="eyebrow rise"><span className="mr-2 inline-block h-1.5 w-1.5 rounded-full bg-sun align-middle" />{eyebrow}</p>
+          <p className="eyebrow rise hidden opacity-60 md:block">Lagos / Worldwide</p>
+        </div>
+        <h1 className="font-display rise mt-8 text-[24vw] leading-[0.8] md:text-[14rem]">{title}<span className="text-sun">.</span></h1>
+        {sub && <p className="font-editorial rise mt-5 max-w-xl text-3xl md:ml-[40%] md:text-4xl" style={{ animationDelay: "120ms" }}>{sub}</p>}
       </div>
-      <h1 className="font-display rise mt-8 text-[22vw] md:text-[12rem]">{title}</h1>
-      {sub && <p className="font-editorial rise mt-4 max-w-xl text-3xl md:ml-[40%] md:text-4xl" style={{ animationDelay: "120ms" }}>{sub}</p>}
+      <TapeLine />
     </section>
   );
 }

@@ -83,7 +83,7 @@ function CartPage() {
               <p className="font-display text-3xl">{formatNaira(cart.subtotal)}</p>
             </div>
             <p className="mt-3 text-sm text-muted-foreground">Delivery is arranged with you after your order.</p>
-            <Link to="/checkout" className="btn-ink mt-6 w-full">Checkout <span>→</span></Link>
+            <Link to="/checkout" className="btn-sun mt-6 w-full [--shadow-c:#111]">Checkout <span>→</span></Link>
             <Link to="/collection" className="eyebrow link-draw mt-6 block w-fit">← Continue shopping</Link>
           </div>
         </>

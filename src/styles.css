@@ -149,6 +149,7 @@
   transition: transform 0.2s var(--ease-editorial), box-shadow 0.2s var(--ease-editorial);
   &:hover { transform: translate(2px, 2px); box-shadow: 3px 3px 0 var(--shadow-c, #fff); }
   &:active { transform: translate(5px, 5px); box-shadow: 0 0 0 var(--shadow-c, #fff); }
+  &:disabled { opacity: 0.5; box-shadow: none; transform: none; cursor: not-allowed; }
 }
 
 /* Ticket barcode */

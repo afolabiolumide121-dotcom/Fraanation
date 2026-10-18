@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { poolParty } from "@/lib/brand-data";
+import { useReserve } from "@/components/reserve-dialog";
 
 /** Rotating RSVP sticker for the hero. */
 export function Sticker({ onClick }: { onClick: () => void }) {
@@ -20,7 +21,7 @@ export function Sticker({ onClick }: { onClick: () => void }) {
 
 const tape = "AFTER DARK ✦ NOV 25 ✦ THE GRAND ELYSIUM ✦ FREE ENTRY ✦ 9PM TILL DAWN ✦ ";
 
-function Band({ className, reverse }: { className: string; reverse?: boolean }) {
+export function Band({ className, reverse }: { className: string; reverse?: boolean }) {
   return (
     <div className={`absolute left-[-5%] w-[110%] overflow-hidden whitespace-nowrap py-2.5 ${className}`}>
       <div className={`marquee font-display text-3xl md:text-5xl ${reverse ? "[animation-direction:reverse]" : ""}`}>
@@ -93,5 +94,31 @@ export function FilmStrip({ frames, onReserve, hasTicket }: { frames: [string, s
         <div className="sprockets" />
       </div>
     </div>
+  );
+}
+
+/** A single yellow tape band on an ink strip. */
+export function TapeLine() {
+  return (
+    <div aria-hidden="true" className="relative h-20 overflow-hidden bg-ink md:h-24">
+      <Band className="top-5 -rotate-1 bg-sun text-ink md:top-6" />
+    </div>
+  );
+}
+
+/** Closing call-to-action used at the end of inner pages. */
+export function CtaBand({ line, accent, secondary }: { line: string; accent: string; secondary?: { to: "/community" | "/collection" | "/events"; label: string } }) {
+  const { open, hasTicket } = useReserve();
+  return (
+    <section className="grain relative bg-ink text-ink-foreground">
+      <div className="relative mx-auto max-w-[1400px] px-5 py-20 md:px-10 md:py-32">
+        <p className="eyebrow text-sun">After Dark · Nov 25 · Free entry</p>
+        <h2 className="font-display reveal mt-5 max-w-5xl text-[15vw] leading-[0.85] md:text-[9rem]">{line} <span className="text-sun">{accent}</span></h2>
+        <div className="mt-10 flex flex-col gap-5 md:flex-row md:items-center md:gap-8">
+          <button type="button" onClick={open} className="btn-sun w-full md:w-auto">{hasTicket ? "View my ticket" : "Reserve your spot — it's free"} <span aria-hidden="true">→</span></button>
+          {secondary && <Link to={secondary.to} className="eyebrow link-draw w-fit pb-1">{secondary.label} →</Link>}
+        </div>
+      </div>
+    </section>
   );
 }
