@@ -79,7 +79,7 @@ function YoureIn({ t, ev, onReset }: { t: Ticket; ev: EventRow; onReset: () => v
       setSaving(false);
     }
   }
-  const text = "I'M GOING TO FRAANATION AFTER DARK.\nNOV 25.\n9PM TILL DAWN.\nFRAANATION.";
+  const text = "I'M GOING TO FRAANATION AFTER DARK.\nNOV 27.\n9PM TILL DAWN.\nFRAANATION.";
   async function share() {
     const url = `${window.location.origin}/events`;
     try {

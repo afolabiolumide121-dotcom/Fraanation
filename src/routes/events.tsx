@@ -14,10 +14,10 @@ const eventQuery = queryOptions({ queryKey: ["event", "pool-party"], queryFn: fe
 export const Route = createFileRoute("/events")({
   head: () => ({
     meta: [
-      { title: "FRAANATION After Dark — 25.11.26 · The Grand Elysium, Lagos" },
-      { name: "description", content: "FRAANATION After Dark. Nov 25, 2026, 9PM till dawn at The Grand Elysium, Idimu, Lagos. Free entry by reservation." },
+      { title: "FRAANATION After Dark — 27.11.26 · The Grand Elysium, Lagos" },
+      { name: "description", content: "FRAANATION After Dark. Nov 27, 2026, 9PM till dawn at The Grand Elysium, Idimu, Lagos. Free entry by reservation." },
       { property: "og:title", content: "FRAANATION After Dark — Where the night gets wet." },
-      { property: "og:description", content: "Nov 25 · 9PM till dawn · The Grand Elysium, Lagos. Free entry — reserve your spot." },
+      { property: "og:description", content: "Nov 27 · 9PM till dawn · The Grand Elysium, Lagos. Free entry — reserve your spot." },
     ],
   }),
   loader: ({ context }) => context.queryClient.ensureQueryData(eventQuery).catch(() => null),
@@ -55,7 +55,7 @@ function Splash() {
           </h1>
           <p className="font-editorial rise mt-4 text-3xl md:text-5xl" style={{ animationDelay: "160ms" }}>Where the night gets wet.</p>
           <div className="rise mt-8 grid grid-cols-2 gap-y-3 border-t border-ink-foreground/25 pt-5 md:grid-cols-4" style={{ animationDelay: "240ms" }}>
-            {["25.11.26", "9PM — Till dawn", ev.venue, ev.city].map((x) => <p key={x} className="eyebrow">{x}</p>)}
+            {["27.11.26", "9PM — Till dawn", ev.venue, ev.city].map((x) => <p key={x} className="eyebrow">{x}</p>)}
           </div>
           <p className="eyebrow rise mt-6" style={{ animationDelay: "300ms" }}><span className="bg-sun px-2 py-1 text-ink">Free entry</span> <span className="ml-2">Reservation required</span></p>
           <div className="rise mt-8 grid gap-3 md:flex" style={{ animationDelay: "360ms" }}>

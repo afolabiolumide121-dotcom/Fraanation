@@ -13,14 +13,14 @@ export const crowdImage = crowd;
 export const poolParty = {
   title: "FRAANATION After Dark",
   tagline: "Where the night gets wet.",
-  date: "November 25, 2026",
-  month: "Nov 25, 2026",
+  date: "November 27, 2026",
+  month: "Nov 27, 2026",
   time: "9:00 PM — Till Dawn",
   venue: "The Grand Elysium",
   address: "9 Taiye Odunjo St., Behind Grace Hotel, Idimu, Lagos",
   city: "Lagos",
   price: "Free",
-  startsAt: "2026-11-25T21:00:00+01:00",
+  startsAt: "2026-11-27T21:00:00+01:00",
   details: [
     "Free entry — reservation required",
     "Music, fashion and people — one night, till dawn",

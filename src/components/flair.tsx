@@ -11,7 +11,7 @@ export function Sticker({ onClick }: { onClick: () => void }) {
         <defs><path id="sticker-ring" d="M100,100 m-79,0 a79,79 0 1,1 158,0 a79,79 0 1,1 -158,0" /></defs>
         <circle cx="100" cy="100" r="99" fill="#FFD900" />
         <text fontSize="17" fontWeight="700" fill="#111" style={{ fontFamily: "Archivo, system-ui, sans-serif" }}>
-          <textPath href="#sticker-ring" textLength="492" lengthAdjust="spacing">FREE ENTRY ✦ NOV 25 ✦ LAGOS ✦ AFTER DARK ✦ </textPath>
+          <textPath href="#sticker-ring" textLength="492" lengthAdjust="spacing">FREE ENTRY ✦ NOV 27 ✦ LAGOS ✦ AFTER DARK ✦ </textPath>
         </text>
       </svg>
       <span className="font-display absolute inset-0 grid place-items-center text-3xl text-ink md:text-5xl">RSVP</span>
@@ -19,7 +19,7 @@ export function Sticker({ onClick }: { onClick: () => void }) {
   );
 }
 
-const tape = "AFTER DARK ✦ NOV 25 ✦ THE GRAND ELYSIUM ✦ FREE ENTRY ✦ 9PM TILL DAWN ✦ ";
+const tape = "AFTER DARK ✦ NOV 27 ✦ THE GRAND ELYSIUM ✦ FREE ENTRY ✦ 9PM TILL DAWN ✦ ";
 
 export function Band({ className, reverse }: { className: string; reverse?: boolean }) {
   return (
@@ -112,7 +112,7 @@ export function CtaBand({ line, accent, secondary }: { line: string; accent: str
   return (
     <section className="grain relative bg-ink text-ink-foreground">
       <div className="relative mx-auto max-w-[1400px] px-5 py-20 md:px-10 md:py-32">
-        <p className="eyebrow text-sun">After Dark · Nov 25 · Free entry</p>
+        <p className="eyebrow text-sun">After Dark · Nov 27 · Free entry</p>
         <h2 className="font-display reveal mt-5 max-w-5xl text-[15vw] leading-[0.85] md:text-[9rem]">{line} <span className="text-sun">{accent}</span></h2>
         <div className="mt-10 flex flex-col gap-5 md:flex-row md:items-center md:gap-8">
           <button type="button" onClick={open} className="btn-sun w-full md:w-auto">{hasTicket ? "View my ticket" : "Reserve your spot — it's free"} <span aria-hidden="true">→</span></button>

@@ -8,7 +8,7 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "FRAANATION — Entertainment, Fashion & Culture" },
-      { name: "description", content: "FRAANATION is an entertainment, fashion and community brand. FRAANATION After Dark — Nov 25, 2026, Lagos. Free entry by reservation." },
+      { name: "description", content: "FRAANATION is an entertainment, fashion and community brand. FRAANATION After Dark — Nov 27, 2026, Lagos. Free entry by reservation." },
       { property: "og:title", content: "FRAANATION — Entertainment, Fashion & Culture" },
       { property: "og:description", content: "Events, THE FRAANATION COLLECTION and a community built for the culture." },
     ],
@@ -29,7 +29,7 @@ function Index() {
 
         <div className="relative mx-auto flex h-full max-w-[1400px] flex-col px-5 pt-24 md:px-10">
           <div className="flex justify-between">
-            <p className="eyebrow rise">After Dark · Nov 25</p>
+            <p className="eyebrow rise">After Dark · Nov 27</p>
             <p className="eyebrow rise hidden md:block">Lagos / Worldwide</p>
           </div>
 
