@@ -17,7 +17,12 @@ export const Route = createFileRoute("/collection")({
     ],
   }),
   loader: ({ context }) => context.queryClient.ensureQueryData(productsQuery()).catch(() => null),
-  errorComponent: () => <p className="px-5 py-24 text-center">The collection couldn't load. Please refresh.</p>,
+  errorComponent: ({ error }) => (
+    <div className="px-5 py-24 text-center">
+      <p>The collection couldn't load. Please refresh.</p>
+      <p className="mx-auto mt-4 max-w-md break-words text-xs opacity-60">Details: {String((error as Error)?.message ?? error).slice(0, 300)}</p>
+    </div>
+  ),
   notFoundComponent: () => <p className="px-5 py-24 text-center">Not found.</p>,
   component: Collection,
 });
