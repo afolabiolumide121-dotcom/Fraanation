@@ -20,6 +20,7 @@ import { Route as CommunityRouteImport } from './routes/community'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as GalleryRouteImport } from './routes/gallery'
+import { Route as StatusRouteImport } from './routes/status'
 import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticated/account'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedFeedRouteImport } from './routes/_authenticated/feed'
@@ -80,6 +81,11 @@ const GalleryRoute = GalleryRouteImport.update({
   path: '/gallery',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StatusRoute = StatusRouteImport.update({
+  id: '/status',
+  path: '/status',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedAccountRoute = AuthenticatedAccountRouteImport.update({
   id: '/account',
   path: '/account',
@@ -117,6 +123,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/events': typeof EventsRoute
   '/gallery': typeof GalleryRoute
+  '/status': typeof StatusRoute
   '/account': typeof AuthenticatedAccountRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/feed': typeof AuthenticatedFeedRoute
@@ -134,6 +141,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/events': typeof EventsRoute
   '/gallery': typeof GalleryRoute
+  '/status': typeof StatusRoute
   '/account': typeof AuthenticatedAccountRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/feed': typeof AuthenticatedFeedRoute
@@ -153,6 +161,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/events': typeof EventsRoute
   '/gallery': typeof GalleryRoute
+  '/status': typeof StatusRoute
   '/_authenticated/account': typeof AuthenticatedAccountRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/feed': typeof AuthenticatedFeedRoute
@@ -172,6 +181,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/events'
     | '/gallery'
+    | '/status'
     | '/account'
     | '/admin'
     | '/feed'
@@ -189,6 +199,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/events'
     | '/gallery'
+    | '/status'
     | '/account'
     | '/admin'
     | '/feed'
@@ -207,6 +218,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/events'
     | '/gallery'
+    | '/status'
     | '/_authenticated/account'
     | '/_authenticated/admin'
     | '/_authenticated/feed'
@@ -226,6 +238,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   EventsRoute: typeof EventsRoute
   GalleryRoute: typeof GalleryRoute
+  StatusRoute: typeof StatusRoute
   ProductIdRoute: typeof ProductIdRoute
 }
 
@@ -308,6 +321,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GalleryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/status': {
+      id: '/status'
+      path: '/status'
+      fullPath: '/status'
+      preLoaderRoute: typeof StatusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/account': {
       id: '/_authenticated/account'
       path: '/account'
@@ -375,6 +395,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   EventsRoute: EventsRoute,
   GalleryRoute: GalleryRoute,
+  StatusRoute: StatusRoute,
   ProductIdRoute: ProductIdRoute,
 }
 export const routeTree = rootRouteImport
