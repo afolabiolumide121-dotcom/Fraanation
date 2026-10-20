@@ -40,7 +40,7 @@ export function ReserveProvider({ children }: { children: ReactNode }) {
     <Ctx.Provider value={{ open: () => setOpen(true), hasTicket: !!ticket }}>
       {children}
       <Dialog open={isOpen} onOpenChange={setOpen}>
-        <DialogContent className="max-h-[92svh] gap-0 overflow-y-auto rounded-t-2xl bg-paper p-0 text-ink max-sm:bottom-0 max-sm:left-0 max-sm:top-auto max-sm:max-w-none max-sm:translate-x-0 max-sm:translate-y-0 sm:max-w-md sm:rounded-none">
+        <DialogContent className="max-h-[92svh] gap-0 overflow-y-auto rounded-t-[1.75rem] bg-white p-0 text-ink max-sm:bottom-0 max-sm:left-0 max-sm:top-auto max-sm:max-w-none max-sm:translate-x-0 max-sm:translate-y-0 sm:max-w-md sm:rounded-[1.75rem]">
           {ticket ? <TicketView t={ticket} ev={ev} onNew={forget} /> : <ReserveForm ev={ev} onDone={saved} />}
         </DialogContent>
       </Dialog>
@@ -48,7 +48,7 @@ export function ReserveProvider({ children }: { children: ReactNode }) {
   );
 }
 
-const input = "w-full border-0 border-b hairline bg-transparent py-3 text-lg outline-none placeholder:text-muted-foreground focus:border-b-2 focus:border-ink";
+const input = "mt-1.5 w-full rounded-xl border border-ink/15 bg-white px-4 py-3 text-base outline-none placeholder:text-muted-foreground focus:border-ink";
 
 function ReserveForm({ ev, onDone }: { ev: EventRow; onDone: (t: Ticket) => void }) {
   const [f, setF] = useState({ fullName: "", phone: "", email: "" });
@@ -75,7 +75,7 @@ function ReserveForm({ ev, onDone }: { ev: EventRow; onDone: (t: Ticket) => void
   }
 
   if (!ev.registration_open) {
-    return <div className="p-6"><DialogTitle className="font-display text-4xl">Reservations closed.</DialogTitle><DialogDescription className="mt-2">Follow us for the next one.</DialogDescription></div>;
+    return <div className="p-6"><DialogTitle className="font-head text-4xl">Reservations closed.</DialogTitle><DialogDescription className="mt-2">Follow us for the next one.</DialogDescription></div>;
   }
 
   const fields = [
@@ -87,8 +87,8 @@ function ReserveForm({ ev, onDone }: { ev: EventRow; onDone: (t: Ticket) => void
   return (
     <form onSubmit={submit} noValidate>
       <div className="border-b border-ink/20 px-6 pb-5 pt-6">
-        <p className="eyebrow"><span className="bg-sun px-2 py-1">Free entry</span></p>
-        <DialogTitle className="font-display mt-4 text-5xl leading-[0.9]">Reserve your spot<span className="text-sun">.</span></DialogTitle>
+        <p><span className="rounded-full bg-sun px-3 py-1 text-xs font-bold">Free entry</span></p>
+        <DialogTitle className="font-head mt-4 text-4xl">Reserve your spot<span className="text-sun">.</span></DialogTitle>
         <DialogDescription className="mt-3 text-sm text-muted-foreground">{ev.title} · {ev.date_text} · {ev.venue}</DialogDescription>
       </div>
       <div className="space-y-5 px-6 py-6">
@@ -104,12 +104,12 @@ function ReserveForm({ ev, onDone }: { ev: EventRow; onDone: (t: Ticket) => void
           <div><p className="text-xs font-semibold">How many people?</p><p className="mt-1 text-xs text-muted-foreground">Including you · up to {max}</p></div>
           <div className="flex items-center">
             <button type="button" aria-label="Fewer guests" disabled={guests <= 1} onClick={() => setGuests(guests - 1)} className="h-11 w-10 text-xl disabled:opacity-30">−</button>
-            <output aria-live="polite" className="font-display w-9 text-center text-4xl">{guests}</output>
+            <output aria-live="polite" className="font-head w-9 text-center text-4xl">{guests}</output>
             <button type="button" aria-label="More guests" disabled={guests >= max} onClick={() => setGuests(guests + 1)} className="h-11 w-10 text-xl disabled:opacity-30">+</button>
           </div>
         </div>
         {serverError && <p role="alert" className="text-sm text-destructive">{serverError}</p>}
-        <button type="submit" disabled={busy} className="flex min-h-14 w-full items-center justify-between bg-ink px-5 py-4 text-xs font-semibold uppercase tracking-[0.2em] text-ink-foreground hover:bg-sun hover:text-ink disabled:opacity-60">
+        <button type="submit" disabled={busy} className="btn-ink w-full disabled:opacity-60">
           {busy ? "Getting your ticket…" : "Get my ticket"} <span aria-hidden="true">→</span>
         </button>
         <p className="text-xs text-muted-foreground">Your ticket appears instantly. Save it to your phone and show it at the door.</p>
@@ -150,7 +150,7 @@ function TicketView({ t, ev, onNew }: { t: Ticket; ev: EventRow; onNew: () => vo
   return (
     <div className="px-6 pb-8 pt-6">
       <p className="eyebrow">{t.already ? "Already on the list" : "Reservation confirmed"}</p>
-      <DialogTitle className="font-display mt-2 text-6xl leading-[0.9]">You're in<span className="text-sun">.</span></DialogTitle>
+      <DialogTitle className="font-head mt-2 text-5xl">You're in<span className="text-sun">.</span></DialogTitle>
       <DialogDescription className="mt-2 text-sm text-muted-foreground">Save your ticket and show it at the entrance.</DialogDescription>
       <div className="mt-6"><TicketPass t={t} ev={ev} /></div>
       <div ref={qrWrap} aria-hidden="true" style={{ position: "absolute", left: -9999, top: 0 }}>
