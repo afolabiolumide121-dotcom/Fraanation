@@ -3,6 +3,9 @@ import { TicketCard, PhotoRow } from "@/components/flair";
 import { Countdown } from "@/components/countdown";
 import { useReserve } from "@/components/reserve-dialog";
 import { heroImage, lookTeeImage, crowdImage, poolParty, products, formatNaira } from "@/lib/brand-data";
+import event1 from "@/assets/event-1.jpg";
+import event5 from "@/assets/event-5.jpg";
+import event6 from "@/assets/event-6.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -87,7 +90,7 @@ function Index() {
             <h2 className="font-head text-[clamp(2.5rem,9vw,6rem)]">The vibe<span className="text-sun">.</span></h2>
             <Link to="/gallery" className="link-draw pb-1 text-sm font-semibold">See all →</Link>
           </div>
-          <PhotoRow onReserve={open} hasTicket={hasTicket} frames={[[crowdImage, "FRAANATION crowd", "The crowd"], [lookTeeImage, "FRAA Signature Tee", "Signed FRAA"], [heroImage, "FRAANATION summer", "Summer cover"]]} />
+          <PhotoRow onReserve={open} hasTicket={hasTicket} frames={[[event1, "Guests at a FRAANATION event", "Last event"], [event5, "A guest smiling at a FRAANATION event", "Good company"], [event6, "Guests dancing at a FRAANATION event", "The energy"]]} />
         </div>
       </section>
 

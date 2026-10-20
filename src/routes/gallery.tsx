@@ -2,6 +2,14 @@ import { createFileRoute } from "@tanstack/react-router";
 import { PageHero } from "@/components/site-chrome";
 import { CtaBand } from "@/components/flair";
 import { heroImage, lookTeeImage, crowdImage, products } from "@/lib/brand-data";
+import event1 from "@/assets/event-1.jpg";
+import event2 from "@/assets/event-2.jpg";
+import event3 from "@/assets/event-3.jpg";
+import event4 from "@/assets/event-4.jpg";
+import event5 from "@/assets/event-5.jpg";
+import event6 from "@/assets/event-6.jpg";
+
+const lastEvent = [event1, event2, event3, event4, event5, event6];
 
 export const Route = createFileRoute("/gallery")({
   head: () => ({
@@ -26,6 +34,19 @@ function Gallery() {
   return (
     <>
       <PageHero index="05" eyebrow="Moments" title="Gallery" sub="Captured in the heat of it." />
+      <section className="mx-auto max-w-[1400px] px-5 pb-20 pt-12 md:px-10 md:pb-28 md:pt-20">
+        <div className="mb-8 flex items-end justify-between">
+          <h2 className="font-head text-[clamp(2rem,6vw,4rem)]">From our last event<span className="text-sun">.</span></h2>
+        </div>
+        <div className="columns-1 gap-4 md:columns-2 md:gap-6">
+          {lastEvent.map((src, i) => (
+            <figure key={src} className="group mb-4 break-inside-avoid overflow-hidden rounded-[1.5rem] md:mb-6">
+              <img src={src} alt={`Guests at a FRAANATION event, photo ${i + 1}`} loading={i < 2 ? "eager" : "lazy"} width={1290} height={861} className="img-editorial h-auto w-full" />
+            </figure>
+          ))}
+        </div>
+      </section>
+
       <section className="mx-auto grid max-w-[1400px] gap-4 px-5 pb-24 md:grid-cols-12 md:gap-8 md:px-10">
         {items.map((it, i) => (
           <figure key={i} className={`group relative overflow-hidden rounded-[1.75rem] ${it.cls}`}>
