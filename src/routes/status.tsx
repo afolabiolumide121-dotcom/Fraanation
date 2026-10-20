@@ -32,7 +32,7 @@ function Status() {
       <h1 className="font-head text-4xl">Status</h1>
       <p className="mt-2 break-all text-sm text-muted-foreground">Backend: {host || "unknown"}</p>
       <p className="mt-6 text-sm text-muted-foreground">
-        events and products should say "readable". The others should say "permission denied" (that is correct, they are private).
+        events should show 1 row and products should show 5 rows or more. The other tables are private, so 0 rows is normal for them.
         "Could not find the table" means the table is missing or hidden.
       </p>
       <ul className="mt-6 divide-y divide-ink/10 border-y border-ink/10">
