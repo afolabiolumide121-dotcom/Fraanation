@@ -3,7 +3,6 @@ import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { LookupForm, mapsUrl } from "@/components/registration-form";
 import { ReserveButton, useReserve } from "@/components/reserve-dialog";
-import { Sticker, TapeBands } from "@/components/flair";
 import { Countdown } from "@/components/countdown";
 import { fetchEvent } from "@/lib/reservation";
 import { heroImage, crowdImage, lookTeeImage, poolParty } from "@/lib/brand-data";
@@ -44,28 +43,25 @@ function Splash() {
   return (
     <div className="bg-ink text-ink-foreground">
       {/* HERO */}
-      <section className="grain relative -mt-px min-h-[100svh] overflow-hidden">
-        <Sticker onClick={open} />
-        <img src={heroImage} alt="FRAANATION After Dark" width={1088} height={1440} className="absolute inset-0 h-full w-full object-cover opacity-55" />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/30 to-transparent" />
-        <div className="relative mx-auto flex min-h-[100svh] max-w-[1400px] flex-col justify-end px-5 pb-10 pt-24 md:px-10 md:pb-16">
-          <p className="eyebrow rise"><span className="mr-2 inline-block h-1.5 w-1.5 rounded-full bg-sun align-middle" />FRAANATION presents</p>
-          <h1 className="font-display rise mt-4 text-[38vw] leading-[0.78] md:text-[22rem]" style={{ animationDelay: "80ms" }}>
-            After<br />Dark<span className="text-sun">.</span>
+      <section className="relative -mt-px min-h-[88svh] overflow-hidden rounded-b-[2rem] md:rounded-b-[3rem]">
+        <img src={heroImage} alt="FRAANATION After Dark" width={1088} height={1440} className="absolute inset-0 h-full w-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/35 to-ink/10" />
+        <div className="relative mx-auto flex min-h-[88svh] max-w-[1400px] flex-col justify-end px-5 pb-10 pt-24 md:px-10 md:pb-16">
+          <p className="rise text-sm font-medium opacity-90">FRAANATION presents</p>
+          <h1 className="font-head rise mt-3 text-[clamp(4rem,19vw,13rem)]" style={{ animationDelay: "80ms" }}>
+            After Dark<span className="text-sun">.</span>
           </h1>
-          <p className="font-editorial rise mt-4 text-3xl md:text-5xl" style={{ animationDelay: "160ms" }}>Where the night gets wet.</p>
-          <div className="rise mt-8 grid grid-cols-2 gap-y-3 border-t border-ink-foreground/25 pt-5 md:grid-cols-4" style={{ animationDelay: "240ms" }}>
-            {["27.11.26", "9PM — Till dawn", ev.venue, ev.city].map((x) => <p key={x} className="eyebrow">{x}</p>)}
+          <p className="font-editorial rise mt-4 text-2xl md:text-4xl" style={{ animationDelay: "160ms" }}>Where the night gets wet.</p>
+          <div className="rise mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm opacity-90" style={{ animationDelay: "240ms" }}>
+            {["27.11.26", "9PM — Till dawn", ev.venue, ev.city].map((x) => <span key={x}>{x}</span>)}
+            <span className="rounded-full bg-sun px-3 py-0.5 text-xs font-bold text-ink">Free entry</span>
           </div>
-          <p className="eyebrow rise mt-6" style={{ animationDelay: "300ms" }}><span className="bg-sun px-2 py-1 text-ink">Free entry</span> <span className="ml-2">Reservation required</span></p>
-          <div className="rise mt-8 grid gap-3 md:flex" style={{ animationDelay: "360ms" }}>
-            <ReserveButton className="btn-sun w-full md:w-auto" />
-            <Link to="/" className="btn-ink w-full border border-ink-foreground/30 md:w-auto">Explore FRAANATION <span>→</span></Link>
+          <div className="rise mt-8 grid gap-3 md:flex" style={{ animationDelay: "320ms" }}>
+            <ReserveButton className="btn-light w-full md:w-auto" />
+            <Link to="/" className="btn-ink w-full border border-ink-foreground/30 !bg-transparent hover:!bg-white/10 md:w-auto">Explore FRAANATION <span>→</span></Link>
           </div>
         </div>
       </section>
-
-      <TapeBands />
 
       {/* COUNTDOWN */}
       <section className="mx-auto max-w-[1400px] px-5 py-16 md:px-10 md:py-24">
@@ -76,9 +72,9 @@ function Splash() {
       {/* EXPERIENCE */}
       <section className="bg-background text-foreground">
         <div className="mx-auto grid max-w-[1400px] gap-10 px-5 py-20 md:grid-cols-12 md:px-10 md:py-32">
-          <p className="eyebrow md:col-span-3">(01) The experience</p>
+          <p className="eyebrow md:col-span-3">The experience</p>
           <p className="font-editorial text-4xl leading-tight md:col-span-8 md:text-6xl">
-            After Dark is where FRAANATION brings entertainment, fashion, music, people and energy together for <span className="font-display not-italic">one unforgettable night.</span>
+            After Dark is where FRAANATION brings entertainment, fashion, music, people and energy together for <span className="font-head not-italic">one unforgettable night.</span>
           </p>
           <ol className="border-t hairline md:col-span-8 md:col-start-4">
             {ev.details.map((d, i) => (
@@ -92,15 +88,15 @@ function Splash() {
       <section id="reserve" className="mx-auto max-w-[1400px] scroll-mt-16 px-5 py-20 md:px-10 md:py-32">
         <div className="grid gap-16 md:grid-cols-12">
           <div id="register" className="scroll-mt-16 md:col-span-5">
-            <div className="relative rotate-[-1deg] bg-paper p-6 text-ink shadow-[8px_8px_0_#FFD900]">
-              <p className="eyebrow"><span className="bg-sun px-2 py-1">Free entry</span></p>
-              <h2 className="font-display mt-5 text-6xl leading-[0.9]">Your night.<br />Your <span className="font-editorial text-5xl normal-case">invitation.</span></h2>
+            <div className="relative rounded-[1.75rem] bg-white p-6 text-ink shadow-[0_30px_70px_-40px_rgba(0,0,0,0.5)]">
+              <p><span className="rounded-full bg-sun px-3 py-1 text-xs font-bold">Free entry</span></p>
+              <h2 className="font-head mt-5 text-5xl">Your night.<br />Your <span className="font-editorial font-normal">invitation.</span></h2>
               <p className="mt-4 text-sm text-muted-foreground">Takes 30 seconds. Get your ticket instantly and save it to your phone.</p>
               <ReserveButton className="btn-ink mt-6 w-full" />
             </div>
           </div>
           <div className="md:col-span-6 md:col-start-7">
-            <p className="eyebrow text-sun">(02) The details</p>
+            <p className="eyebrow text-sun">The details</p>
             <dl className="mt-8 border-t border-ink-foreground/25">
               {[["Date", ev.date_text], ["Time", ev.time_text], ["Venue", ev.venue], ["Location", ev.address], ["Entry", "Free"], ["Access", "By reservation"]].map(([k, v]) => (
                 <div key={k} className="grid grid-cols-3 gap-4 border-b border-ink-foreground/15 py-4">
@@ -119,11 +115,11 @@ function Splash() {
       <section className="bg-background text-foreground">
         <div className="mx-auto grid max-w-[1400px] items-end gap-8 px-5 py-20 md:grid-cols-12 md:px-10 md:py-32">
           <div className="group overflow-hidden md:col-span-6">
-            <img src={lookTeeImage} alt="FRAA Signature Tee" loading="lazy" className="img-editorial aspect-[4/5] w-full object-cover object-top" />
+            <img src={lookTeeImage} alt="FRAA Signature Tee" loading="lazy" className="img-editorial aspect-[4/5] w-full rounded-[1.75rem] object-cover object-top" />
           </div>
           <div className="md:col-span-5 md:col-start-8">
-            <p className="eyebrow">(03) The fashion layer</p>
-            <h2 className="font-display mt-4 text-7xl md:text-8xl">What are you wearing?</h2>
+            <p className="eyebrow">The fashion layer</p>
+            <h2 className="font-head mt-4 text-[clamp(2.5rem,8vw,5.5rem)]">What are you wearing?</h2>
             <p className="mt-6 leading-relaxed text-muted-foreground">The FRAA Collection is the dress code you don't have to be told. Every piece carries the signature.</p>
             <Link to="/collection" className="btn-ink mt-8 w-full md:w-auto">Shop the FRAA collection <span>→</span></Link>
           </div>
@@ -134,8 +130,8 @@ function Splash() {
       <section className="relative overflow-hidden">
         <img src={crowdImage} alt="FRAANATION crowd" loading="lazy" className="absolute inset-0 h-full w-full object-cover opacity-35" />
         <div className="relative mx-auto max-w-[1400px] px-5 py-24 md:px-10 md:py-40">
-          <p className="eyebrow text-sun">(04) Members only</p>
-          <h2 className="font-display mt-4 max-w-4xl text-6xl md:text-9xl">The night doesn't start at the venue.</h2>
+          <p className="eyebrow text-sun">Members only</p>
+          <h2 className="font-head mt-4 max-w-4xl text-[clamp(2.5rem,9vw,6.5rem)]">The night doesn't start at the venue.</h2>
           <p className="font-editorial mt-6 max-w-xl text-2xl">Meet the crowd before the doors open — inside the FRAANATION community.</p>
           <Link to="/community" className="btn-light mt-10 w-full md:w-auto">Join FRAANATION <span>→</span></Link>
         </div>

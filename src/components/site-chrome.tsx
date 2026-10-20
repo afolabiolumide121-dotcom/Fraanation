@@ -2,7 +2,6 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { poolParty } from "@/lib/brand-data";
 import { useCart } from "@/lib/cart";
-import { TapeLine } from "@/components/flair";
 import { ReserveButton } from "@/components/reserve-dialog";
 
 const nav = [
@@ -18,27 +17,28 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const path = useRouterState({ select: (s) => s.location.pathname });
   const { count } = useCart();
-  const overHero = ["/", "/about", "/collection", "/contact", "/gallery", "/events", "/community"].includes(path) && !open;
+  const overHero = path === "/" && !open;
   useEffect(() => setOpen(false), [path]);
   useEffect(() => { document.body.style.overflow = open ? "hidden" : ""; }, [open]);
 
   return (
     <>
-      <header className={`${overHero ? "absolute text-ink-foreground" : "sticky bg-background text-foreground border-b hairline"} inset-x-0 top-0 z-50`}>
+      <header className={`${overHero ? "absolute text-ink-foreground" : "sticky border-b border-ink/10 bg-background/85 text-foreground backdrop-blur-md"} inset-x-0 top-0 z-50`}>
         <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between px-5 md:px-10">
-          <Link to="/" className="font-display text-[1.35rem] tracking-wide">
+          <Link to="/" className="font-display text-[1.3rem] tracking-wide">
             FRAANATION<span className="text-sun">.</span>
           </Link>
-          <nav className="hidden items-center gap-8 lg:flex">
+          <nav className="hidden items-center gap-7 lg:flex">
             {nav.map((n) => (
-              <Link key={n.to} to={n.to} className="eyebrow link-draw pb-1" activeProps={{ className: "text-sun" }}>{n.label}</Link>
+              <Link key={n.to} to={n.to} className="text-sm font-medium opacity-70 transition-opacity hover:opacity-100" activeProps={{ className: "!opacity-100" }}>{n.label}</Link>
             ))}
           </nav>
-          <div className="flex items-center gap-5">
-            <Link to="/cart" className="eyebrow link-draw flex min-h-11 items-center gap-1.5">
-              Cart{count > 0 && <span className="bg-sun px-1.5 py-0.5 text-ink">{count}</span>}
+          <div className="flex items-center gap-2">
+            <Link to="/cart" className="flex min-h-11 items-center gap-1.5 px-3 text-sm font-medium">
+              Bag{count > 0 && <span className="rounded-full bg-sun px-1.5 text-xs font-bold text-ink">{count}</span>}
             </Link>
-            <button className="eyebrow min-h-11 lg:hidden" onClick={() => setOpen(!open)} aria-expanded={open}>
+            <ReserveButton className={`hidden min-h-10 items-center gap-2 rounded-full px-5 text-sm font-semibold sm:inline-flex ${overHero ? "bg-white text-ink" : "bg-ink text-ink-foreground"}`}>Reserve</ReserveButton>
+            <button className="min-h-11 px-3 text-sm font-medium lg:hidden" onClick={() => setOpen(!open)} aria-expanded={open}>
               {open ? "Close" : "Menu"}
             </button>
           </div>
@@ -46,17 +46,16 @@ export function SiteHeader() {
       </header>
 
       {open && (
-        <div className="fixed inset-0 z-40 flex flex-col bg-ink px-5 pb-8 pt-20 text-ink-foreground lg:hidden">
+        <div className="fixed inset-0 z-40 flex flex-col bg-background px-5 pb-8 pt-24 text-foreground lg:hidden">
           <nav className="flex flex-1 flex-col justify-center">
             {nav.map((n, i) => (
-              <Link key={n.to} to={n.to} className="rise flex items-baseline gap-4 border-b border-ink-foreground/10 py-3"
-                style={{ animationDelay: `${i * 50}ms` }} activeProps={{ className: "text-sun" }}>
-                <span className="eyebrow w-6 opacity-50">0{i + 1}</span>
-                <span className="font-display text-[3.4rem]">{n.label}</span>
+              <Link key={n.to} to={n.to} className="rise border-b border-ink/10 py-3 font-head text-[2.4rem]"
+                style={{ animationDelay: `${i * 50}ms` }} activeProps={{ className: "text-muted-foreground" }}>
+                {n.label}
               </Link>
             ))}
           </nav>
-          <Link to="/events" hash="register" className="btn-light w-full">Reserve — After Dark <span>→</span></Link>
+          <ReserveButton className="btn-ink w-full">Reserve — After Dark</ReserveButton>
         </div>
       )}
     </>
@@ -81,26 +80,23 @@ export function EventTicker() {
 
 export function SiteFooter() {
   return (
-    <footer className="grain relative bg-ink text-ink-foreground">
-      <TapeLine />
-      <div className="mx-auto max-w-[1400px] px-5 pt-12 md:px-10">
+    <footer className="bg-ink text-ink-foreground">
+      <div className="mx-auto max-w-[1400px] px-5 py-16 md:px-10 md:py-24">
         <div className="grid gap-12 md:grid-cols-12">
-          <p className="font-editorial text-4xl md:col-span-6 md:text-6xl">
-            A culture, <br />not a <span className="text-sun">moment.</span>
-            <ReserveButton className="btn-sun mt-8 w-full text-left font-sans not-italic md:w-auto" />
-          </p>
-          <nav className="grid grid-cols-2 gap-y-4 md:col-span-4 md:col-start-9">
+          <div className="md:col-span-6">
+            <p className="font-display text-3xl tracking-wide">FRAANATION<span className="text-sun">.</span></p>
+            <p className="mt-4 max-w-sm text-sm leading-relaxed opacity-70">Entertainment, fashion and community. A culture, not a moment.</p>
+            <ReserveButton className="btn-sun mt-8 w-full md:w-auto" />
+          </div>
+          <nav className="grid grid-cols-2 gap-y-3 md:col-span-4 md:col-start-9">
             {nav.map((n) => (
-              <Link key={n.to} to={n.to} className="eyebrow link-draw w-fit opacity-80">{n.label}</Link>
+              <Link key={n.to} to={n.to} className="w-fit text-sm opacity-70 transition-opacity hover:opacity-100">{n.label}</Link>
             ))}
           </nav>
         </div>
-        <p className="font-display mt-20 select-none text-[19.5vw] leading-[0.78] tracking-tight md:text-[17.5vw]">
-          FRAANATION
-        </p>
-        <div className="flex justify-between border-t border-ink-foreground/15 py-5">
-          <p className="eyebrow opacity-50">© {new Date().getFullYear()} FRAANATION</p>
-          <p className="eyebrow opacity-50">Lagos — Worldwide</p>
+        <div className="mt-16 flex justify-between border-t border-ink-foreground/15 pt-6 text-xs opacity-50">
+          <p>© {new Date().getFullYear()} FRAANATION</p>
+          <p>Lagos — Worldwide</p>
         </div>
       </div>
     </footer>
@@ -109,16 +105,12 @@ export function SiteFooter() {
 
 export function PageHero({ eyebrow, title, sub }: { index?: string; eyebrow: string; title: string; sub?: string }) {
   return (
-    <section className="grain relative overflow-hidden bg-ink text-ink-foreground">
-      <div className="relative mx-auto max-w-[1400px] px-5 pb-4 pt-28 md:px-10 md:pb-8 md:pt-40">
-        <div className="flex items-center justify-between gap-4">
-          <p className="eyebrow rise"><span className="mr-2 inline-block h-1.5 w-1.5 rounded-full bg-sun align-middle" />{eyebrow}</p>
-          <p className="eyebrow rise hidden opacity-60 md:block">Lagos / Worldwide</p>
-        </div>
-        <h1 className="font-display rise mt-8 text-[24vw] leading-[0.8] md:text-[14rem]">{title}<span className="text-sun">.</span></h1>
-        {sub && <p className="font-editorial rise mt-5 max-w-xl text-3xl md:ml-[40%] md:text-4xl" style={{ animationDelay: "120ms" }}>{sub}</p>}
+    <section className="border-b border-ink/10">
+      <div className="mx-auto max-w-[1400px] px-5 pb-12 pt-16 md:px-10 md:pb-20 md:pt-28">
+        <p className="rise eyebrow text-muted-foreground"><span className="mr-2 inline-block h-1.5 w-1.5 rounded-full bg-sun align-middle" />{eyebrow}</p>
+        <h1 className="font-head rise mt-6 text-[clamp(3rem,12vw,9rem)]" style={{ animationDelay: "80ms" }}>{title}<span className="text-sun">.</span></h1>
+        {sub && <p className="font-editorial rise mt-6 max-w-xl text-2xl text-muted-foreground md:text-3xl" style={{ animationDelay: "160ms" }}>{sub}</p>}
       </div>
-      <TapeLine />
     </section>
   );
 }

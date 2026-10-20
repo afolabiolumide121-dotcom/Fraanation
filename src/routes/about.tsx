@@ -24,13 +24,13 @@ function About() {
         <p className="font-editorial reveal pt-16 text-[2.3rem] md:col-span-8 md:pt-24 md:text-6xl">
           FRAANATION is an entertainment, fashion, lifestyle and social culture brand — built for a generation that dresses loud, shows up and creates together.
         </p>
-        <div className="group overflow-hidden md:col-span-5 md:col-start-2">
+        <div className="group overflow-hidden rounded-[1.75rem] md:col-span-5 md:col-start-2">
           <img src={lookTeeImage} alt="FRAANATION" loading="lazy" width={1088} height={1440} className="img-editorial aspect-[3/4] w-full object-cover" />
         </div>
         <ul className="grid gap-5 self-end md:col-span-4 md:col-start-8">
           {pillars.map(([t, d]) => (
-            <li key={t} className="reveal border-2 border-ink bg-background p-5 shadow-[6px_6px_0_#111] transition-transform duration-300 hover:-translate-y-1 hover:bg-sun">
-              <p className="font-display text-4xl">{t}</p>
+            <li key={t} className="reveal rounded-[1.5rem] border border-ink/10 bg-paper p-6 transition-colors duration-300 hover:bg-sun/25">
+              <p className="font-head text-3xl">{t}</p>
               <p className="mt-1 text-ink/70">{d}</p>
             </li>
           ))}

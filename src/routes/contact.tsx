@@ -25,9 +25,9 @@ function Contact() {
       <PageHero eyebrow="Say hello" title="Contact" sub="Events, partnerships, press — talk to us." />
       <section className="mx-auto max-w-[1400px] px-5 pb-28 md:px-10">
         {rows.map((r) => (
-          <a key={r.k} href={r.href} target="_blank" rel="noreferrer" className="group flex flex-col gap-2 border-t hairline px-0 py-8 transition-all duration-300 hover:bg-ink hover:px-4 hover:text-ink-foreground md:flex-row md:items-baseline md:justify-between">
-            <p className="eyebrow text-muted-foreground group-hover:text-sun">{r.k}</p>
-            <p className="font-display break-all text-[9vw] md:text-7xl">{r.v} <span className="text-sun">↗</span></p>
+          <a key={r.k} href={r.href} target="_blank" rel="noreferrer" className="group flex flex-col gap-2 border-t hairline py-7 transition-colors duration-300 hover:text-muted-foreground md:flex-row md:items-baseline md:justify-between">
+            <p className="eyebrow text-muted-foreground">{r.k}</p>
+            <p className="font-head break-all text-[clamp(1.5rem,6.5vw,3.5rem)]">{r.v} <span className="text-sun">↗</span></p>
           </a>
         ))}
       </section>
